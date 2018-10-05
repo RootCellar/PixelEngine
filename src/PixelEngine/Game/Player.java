@@ -67,6 +67,15 @@ public class Player extends Mob
         
         c.drawLine(x, y, level.xBound / 2, level.yBound / 2, 255, 255, 255);
         
+        c.drawLine( x, y, 0, 0, 255, 0, 0, 100 );
+        c.drawLine( x, y, level.xBound, 0, 0, 255, 0, 100 );
+        c.drawLine( x, y, 0, level.yBound, 0, 0, 255, 100 );
+        c.drawLine( x, y, level.xBound, level.yBound, 255, 255, 0, 100 );
+        
+        c.drawLine( x, y, level.xBound / 2, 0, 255, 0, 255, 100 );
+        c.drawLine( x, y, level.xBound / 2, level.yBound, 0, 255, 255, 100 );
+        //c.drawLine( x, y, level.xBound, level.yBound / 2, 0, 0, 255, 100 );
+        
         HPbar.render(c);
     }
 

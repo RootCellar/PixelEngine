@@ -328,6 +328,8 @@ public class PixelCanvas extends Canvas implements Runnable
     }
 
     public void drawLine(double x1, double y1, double x2, double y2, int r, int g, int b) {
-        drawLine(x1, y1, x2, y2, r, g, b, 100);
+        //drawLine(x1, y1, x2, y2, r, g, b, 100);
+        
+        drawLine(x1, y1, x2, y2, r, g, b, (int) DIST.getDistance( x1, y1, x2, y2 ) );
     }
 }
