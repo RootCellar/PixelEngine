@@ -47,10 +47,27 @@ public class BasicGame extends Game
             engine.debug("User wants normal mode");
         }
         
+        if(in.u.wasDown()) {
+            engine.getScreen().ZOOM /= 2;
+        }
+        
+        if(in.i.wasDown()) {
+            engine.getScreen().ZOOM *= 2;
+        }
+        
+        if(in.e.wasDown()) {
+            engine.getScreen().ZOOM = 1;
+        }
+        
         engine.getLevel().tick();
     }
     
     public void render() {
+        
+        if( engine.getScreen().ZOOM < 0.125 ) engine.getScreen().ZOOM = 0.125;
+        
+        if( engine.getScreen().ZOOM > 8 ) engine.getScreen().ZOOM = 8;
+        
         engine.getScreen().clear();
         //engine.getScreen().randomize();
         
@@ -64,5 +81,6 @@ public class BasicGame extends Game
     
     public void draw(Graphics g) {
         g.drawString("Time: " + System.nanoTime(), 50, 60);
+        g.drawString("ZOOM: " + engine.getScreen().ZOOM, 50, 80);
     }
 }
