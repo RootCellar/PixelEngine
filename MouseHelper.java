@@ -4,10 +4,13 @@ public class MouseHelper
 {
   PixelCanvas canvas;
   
-  int dx = 0;
-  int dy = 0;
+  double dx = 0;
+  double dy = 0;
   
   double zoom = 1;
+  
+  double wasX = 0;
+  double wasY = 0;
   
   public MouseHelper(PixelCanvas c) {
      canvas = c;
@@ -24,6 +27,13 @@ public class MouseHelper
   
   public Point getPoint() {
     Point mousePos = canvas.getMousePosition();
+    
+    if(mousePos == null) {
+      mousePos = new Point(wasX, wasY);
+    }
+    
+    wasX = mousePos.getX();
+    wasY = mousePos.getY();
     
     mousePos.translate(dx, dy);
     
