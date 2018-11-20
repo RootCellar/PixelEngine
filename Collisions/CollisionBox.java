@@ -20,4 +20,8 @@ public class CollisionBox
     
   }
   
+  public Rectangle getRectangle() {
+    return new Rectangle( top, farLeft, farRight - farLeft, bottom - top );
+  }
+  
 }
