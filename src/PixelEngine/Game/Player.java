@@ -10,9 +10,10 @@ public class Player extends Mob
     public double dy = 0;
 
     public Player() {
-        maxHp = 2000;
-        hp = maxHp;
-        regen = 1;
+        maxHp = 100;
+        //hp = maxHp;
+        hp = 1;
+        regen = maxHp / 1000;
         team = new Team();
         speed = 2;
         size = 15;
@@ -20,9 +21,9 @@ public class Player extends Mob
     }
     
     public void damage(double a) {
-        //hp-=a;
-        //damageTime = 400;
-        //checkHp();
+        hp-=a;
+        damageTime = 400;
+        checkHp();
     }
 
     public void damage(double a, Mob m) {
@@ -42,11 +43,6 @@ public class Player extends Mob
         level.remove(this);
     }
 
-    public void revive() {
-        isAlive=true;
-        hp=maxHp;
-    }
-
     public void killed(Mob m) {
         kills++;
     }
@@ -61,19 +57,19 @@ public class Player extends Mob
         */
         c.drawSquare((int)x-3, (int)y-3, (int)x+3, (int)y+3, 255, 255, 255);
 
-        c.drawCircle(x, y, 255, 255, 255, size);
+        //c.drawCircle(x, y, 255, 255, 255, size);
         
-        c.drawCircle(x, y, 255, 255, 255, size * 20);
+        //c.drawCircle(x, y, 255, 255, 255, size * 20);
         
-        c.drawLine(x, y, level.xBound / 2, level.yBound / 2, 255, 255, 255);
+        //c.drawLine(x, y, level.xBound / 2, level.yBound / 2, 255, 255, 255);
         
-        c.drawLine( x, y, 0, 0, 255, 0, 0, 100 );
-        c.drawLine( x, y, level.xBound, 0, 0, 255, 0, 100 );
-        c.drawLine( x, y, 0, level.yBound, 0, 0, 255, 100 );
-        c.drawLine( x, y, level.xBound, level.yBound, 255, 255, 0, 100 );
+        //c.drawLine( x, y, 0, 0, 255, 0, 0, 100 );
+        //c.drawLine( x, y, level.xBound, 0, 0, 255, 0, 100 );
+        //c.drawLine( x, y, 0, level.yBound, 0, 0, 255, 100 );
+        //c.drawLine( x, y, level.xBound, level.yBound, 255, 255, 0, 100 );
         
-        c.drawLine( x, y, level.xBound / 2, 0, 255, 0, 255, 100 );
-        c.drawLine( x, y, level.xBound / 2, level.yBound, 0, 255, 255, 100 );
+        //c.drawLine( x, y, level.xBound / 2, 0, 255, 0, 255, 100 );
+        //c.drawLine( x, y, level.xBound / 2, level.yBound, 0, 255, 255, 100 );
         //c.drawLine( x, y, level.xBound, level.yBound / 2, 0, 0, 255, 100 );
         
         HPbar.render(c);

@@ -10,8 +10,9 @@ import java.io.File;
 import PixelEngine.Util.*;
 public class PixelCanvas extends Canvas implements Runnable
 {
-    int WIDTH = 700;
-    int HEIGHT = 700;
+    public int WIDTH = 700;
+    public int HEIGHT = 700;
+
     BufferedImage image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
     int[] pixels = ((DataBufferInt) image.getRaster().getDataBuffer()).getData();
     JFrame frame;
@@ -25,15 +26,17 @@ public class PixelCanvas extends Canvas implements Runnable
     public PixelCanvasUser user;
     boolean drawFPS = false;
     long timeSinceCheck = System.nanoTime();
-    
+
     public double ZOOM = 1;
-    
-    double xo = 0;
-    double yo = 0;
-    
-    int xd = WIDTH/2;
-    int yd = HEIGHT/2;
-    
+
+    public double xo = 0;
+    public double yo = 0;
+
+    public int xd = WIDTH/2;
+    public int yd = HEIGHT/2;
+
+    public boolean offset = true;
+
     public void setCenter( double one, double two) {
         xo = one;
         yo = two;
@@ -102,14 +105,14 @@ public class PixelCanvas extends Canvas implements Runnable
     }
 
     public void render() {
-        
+
         if(System.nanoTime() - timeSinceCheck >= 500000000) {
             if(WIDTH != getWidth() || HEIGHT != getHeight()) {
                 WIDTH = getWidth();
                 HEIGHT = getHeight();
                 resize();
                 timeSinceCheck = System.nanoTime();
-                
+
                 xd = WIDTH/2;
                 yd = HEIGHT/2;
             }
@@ -126,9 +129,9 @@ public class PixelCanvas extends Canvas implements Runnable
 
         g.setColor(Color.BLUE);
         //g.fillRect(0,0,getWidth(),getHeight());
-        
+
         g.drawImage(image,0,0,WIDTH,HEIGHT,null);
-        
+
         if(user!=null) user.draw(g);
 
         drawFps(g);
@@ -171,14 +174,14 @@ public class PixelCanvas extends Canvas implements Runnable
 
         }
     }
-    
+
     //Test Method, possibly faster
     ///*
     public static int getColor(int r, int g, int b) {
         //int r2=r<<16;
         //int g2=g<<8;
         //int b2=b;
-        
+
         try{
             return (r << 16)+(g << 8)+(b);
         }catch(Exception e) {
@@ -186,21 +189,21 @@ public class PixelCanvas extends Canvas implements Runnable
         }
     }
     //*/
-    
+
     /* Original Method
      * May be slower
     public static int getColor(int r, int g, int b) {
-        int r2=r<<16;
-        int g2=g<<8;
-        int b2=b;
+    int r2=r<<16;
+    int g2=g<<8;
+    int b2=b;
 
-        try{
-            return r2+g2+b2;
-        }catch(Exception e) {
-            return 0;
-        }
+    try{
+    return r2+g2+b2;
+    }catch(Exception e) {
+    return 0;
     }
-    */
+    }
+     */
 
     public void randomize() {
         for(int y=0; y< HEIGHT; y++) {
@@ -232,14 +235,16 @@ public class PixelCanvas extends Canvas implements Runnable
     public void drawPixel(int x, int y, int r, int g, int b) {
         //Regular Render
         //screen.setPixel(( x -  ( xo ) ) + xd, ( y - ( yo ) ) + yd, r, g, b);
-        x/=ZOOM;
-        y/=ZOOM;
+        if(offset) {
+            x/=ZOOM;
+            y/=ZOOM;
 
-        x -= xo / ZOOM;
-        y -= yo / ZOOM;
+            x -= xo / ZOOM;
+            y -= yo / ZOOM;
 
-        x+= xd;
-        y+= yd;
+            x+= xd;
+            y+= yd;
+        }
 
         setPixel(x, y, r, g, b);
 
@@ -311,7 +316,7 @@ public class PixelCanvas extends Canvas implements Runnable
         if(count<1) count = (int) Math.round( DIST.getDistance( x1, y1, x2, y2) );
 
         toAdd /= (double)count;
-       
+
         if( x1 == x2 ) {
             for(double i = Math.min(y1, y2); i < Math.max(y1, y2); i += Math.abs( y1 - y2 ) / count ) {
                 drawPixel( (x1 * -1), (i * -1), r, g, b );
@@ -329,7 +334,7 @@ public class PixelCanvas extends Canvas implements Runnable
 
     public void drawLine(double x1, double y1, double x2, double y2, int r, int g, int b) {
         //drawLine(x1, y1, x2, y2, r, g, b, 100);
-        
+
         drawLine(x1, y1, x2, y2, r, g, b, (int) DIST.getDistance( x1, y1, x2, y2 ) );
     }
 }

@@ -117,6 +117,12 @@ public class Mob extends Entity
         }
         else hp+=regen;
     }
+    
+    public void revive() {
+        isAlive=true;
+        hp=maxHp;
+        level.add(this);
+    }
 
     public void killed(Mob m) {
 

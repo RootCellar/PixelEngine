@@ -23,6 +23,11 @@ public class Entity
         level.remove(this);
     }
     
+    public static int nextId() {
+        if(idPoint > 32760 ) idPoint = -32768;
+        return idPoint++;
+    }
+    
     public void tick() {
         if(idPoint > 32000) idPoint = -32767;
     }

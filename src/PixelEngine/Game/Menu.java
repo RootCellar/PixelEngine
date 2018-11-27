@@ -26,7 +26,7 @@ public class Menu implements PixelCanvasUser
         
         if(in.space.wasDown()) {
             if(choice == 0) engine.setMenu( null );
-            if(choice == 1) engine.setMenu( new AboutMenu(engine) );
+            if(choice == 1) engine.setMenu( new EngineAboutMenu(engine) );
         }
         
         doSelect();

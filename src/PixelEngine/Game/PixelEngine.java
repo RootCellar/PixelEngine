@@ -63,8 +63,6 @@ public class PixelEngine implements Runnable, PixelCanvasUser
         
         setMenu( new Menu(this) );
         
-        out("Setting up game...");
-        game.setup();
     }
 
     public Menu getMenu() {
@@ -184,6 +182,10 @@ public class PixelEngine implements Runnable, PixelCanvasUser
         //setup();
 
         int eInRow = 0; //Keep track of how many loops are interrupted in a row
+        
+        //Set up Game
+        out("Setting up game...");
+        game.setup();
 
         out("Running...");
 

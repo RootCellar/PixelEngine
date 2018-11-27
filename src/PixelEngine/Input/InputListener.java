@@ -29,6 +29,8 @@ public class InputListener implements KeyListener
             else return false;
         }
     }
+    
+    public KeyUser user;
 
     public ArrayList<Key> keys = new ArrayList<Key>();
     
@@ -95,10 +97,14 @@ public class InputListener implements KeyListener
 
     public void keyPressed(KeyEvent ke) {
         toggle(ke,true);
+        
+        if(user != null) user.keyPressed(ke);
     }
 
     public void keyReleased(KeyEvent ke) {
         toggle(ke,false);
+        
+        if(user != null) user.keyReleased(ke);
     }
 
     public void keyTyped(KeyEvent ke) {
