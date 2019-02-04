@@ -4,9 +4,12 @@ import java.net.*;
 import java.io.*;
 
 import PixelEngine.Util.*;
+import PixelEngine.Logging.*;
 
 public class SocketHandler implements Runnable
 {
+    private static Logger log = new Logger("SocketHandler", "Log");
+    
     private static int waitTime = 1;
 
     private boolean going = false;
@@ -97,6 +100,7 @@ public class SocketHandler implements Runnable
     }
 
     public void sendBytes(byte[] b) {
+        if(!connected) return;
         try{
             out.writeShort(b.length);
             out.write(b, 0, b.length);
@@ -104,9 +108,11 @@ public class SocketHandler implements Runnable
             BYTES_SENT += b.length;
 
             out.flush();
+        }catch(IOException e) {
+            
         }catch(Exception e) {
             out("COULD NOT SEND BYTES");
-            e.printStackTrace();
+            out( e.getMessage() );
         }
     }
 
@@ -119,7 +125,7 @@ public class SocketHandler implements Runnable
     }
 
     public void sendString(String s) {
-        sendString(s, (short) 0, (short) 0);
+        sendString(s, (short) GameNetMessage.CHAT.getId(), (short) 0);
     }
 
     public void close() {
@@ -139,6 +145,9 @@ public class SocketHandler implements Runnable
             in = new DataInputStream( client.getInputStream() );
         }catch(Exception e) {
             out("Couldn't get input stream");
+            going = false;
+            connected = false;
+            return;
         }
 
         while(going && globalGoing) {
@@ -159,7 +168,7 @@ public class SocketHandler implements Runnable
     public void read() {
         try{
             
-            out("Looking for bytes");
+            //out("Looking for bytes");
 
             short size = in.readShort();
 
@@ -167,12 +176,12 @@ public class SocketHandler implements Runnable
 
             int count = in.read(bytes, 0, size);
             
-            out("Read some bytes");
+            //out("Read some bytes");
 
             if(size != count) {
                 out("RECEIVED WRONG NUMBER OF BYTES. DISCARDING...");
 
-                throw new Exception("WRONG_BYTES");
+                throw new IOException("WRONG_BYTES");
             }
 
             user.inputBytes(bytes);
@@ -183,7 +192,7 @@ public class SocketHandler implements Runnable
             connected=false;
             going=false;
         }catch(Exception e) {
-            e.printStackTrace();
+            out(e.getMessage());
 
             out("EXCEPTION ON READ");
         }
@@ -193,6 +202,8 @@ public class SocketHandler implements Runnable
         if(user2 != null) {
             user2.inputText("[SOCKET HANDLER] " + s);
         }
+        
+        log.log("[SOCKET HANDLER] " + s);
         
         //System.out.println("[SOCKET HANDLER] " + s);
     }

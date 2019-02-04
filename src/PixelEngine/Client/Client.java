@@ -12,7 +12,7 @@ import PixelEngine.Logging.*;
 import PixelEngine.Screen.*;
 import PixelEngine.Input.*;
 
-public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, SocketUser
+public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, SocketUser, Outputter
 {
     //Constants, if needed
     static char[] legalChars = " 1234567890abcdefghijklmnopqrstuvwxyz!@#$%^&*(){}[]-=_+:;<>,.?/'\"".toCharArray();
@@ -22,6 +22,7 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
     public Logger debugLog = new Logger("Client","Debug");
     
     //Important Objects
+    public MessageTypes messageTypes = new MessageTypes(this);
     public SocketHandler sHandler;
     public PixelCanvas canvas = new PixelCanvas();
     public InputListener input = new InputListener(canvas);
@@ -29,7 +30,7 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
     public ChatBox chatBox = new ChatBox();
     public MouseHelper mouseHelper = new MouseHelper(canvas);
     
-    //public ArrayList<Message> messages = new ArrayList<Message>();
+    //Use ConcurrentLinkedQueue to avoid exceptions due to multithreading
     public ConcurrentLinkedQueue<Message> messages = new ConcurrentLinkedQueue<Message>();
     
     //Variables
@@ -47,6 +48,12 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
     
     public Client() {
         out("Client Created");
+        
+        canvas.user = this;
+        Inventory.netMode = true;
+        Level.MODE_NET = true;
+        
+        MessageTypes.add(GameNetMessage.values());
     }
 
     public void keyPressed(KeyEvent ke) {
@@ -150,9 +157,9 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
             else out("Couldn't create connection");
 
         }
-        else if(sHandler != null) {
+        else if(sHandler != null && s.indexOf("@") != 0 ) {
             //out("[S]");
-            Message m = new Message( (short) 0 , (short) 0 );
+            Message m = new Message( (short) GameNetMessage.CHAT.getId() , (short) 0 );
             m.setString(s);
             sHandler.sendMessage(m);
         }
@@ -230,7 +237,12 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
                 boolean ticked = false;
 
                 while(unprocessed>=1) {
+                    long TICK_BEGIN = System.nanoTime();
                     tick();
+                    long TICK_END = System.nanoTime();
+                    
+                    registry.add( new Property("TIME_TICK", (TICK_END - TICK_BEGIN) + "" ) );
+                    
                     ticks2++;
                     unprocessed-=1;
                     ticked = true;
@@ -240,7 +252,13 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
 
                 if( ( System.nanoTime() - lastFrame ) >= nsPerFrame ) {
                     lastFrame = System.nanoTime();
+                    
+                    long RENDER_START = System.nanoTime();
                     render();
+                    long RENDER_END = System.nanoTime();
+                    
+                    registry.add( new Property("TIME_RENDER", (RENDER_END - RENDER_START) + "" ) );
+                    
                     frames2++;
                     //lastFrame = System.nanoTime();
                 }
@@ -274,7 +292,7 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
 
     /**
      * Very, very important method.
-     * Set up properties, packet types, and other stuff
+     * Set up properties and other stuff
      */
     public void setup() {
         out("Setting up...");
@@ -314,12 +332,11 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
         logger.log(s);
 
         System.out.println("[C] " + s);
-
         chatBox.addMessage("[C] " + s);
     }
 
     public void debug(String s) {
-        //System.out.println("[CLIENT] [DEBUG] " + s);
+        System.out.println("[CLIENT] [DEBUG] " + s);
 
         debugLog.log(s);
     }

@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import java.io.File;
 
 import PixelEngine.Util.*;
+
 public class PixelCanvas extends Canvas implements Runnable
 {
     public int WIDTH = 700;
@@ -36,6 +37,10 @@ public class PixelCanvas extends Canvas implements Runnable
     public int yd = HEIGHT/2;
 
     public boolean offset = true;
+    
+    public boolean AUTO_CLEAR = true;
+    
+    public int SET_TIMES = 0;
 
     public void setCenter( double one, double two) {
         xo = one;
@@ -128,7 +133,7 @@ public class PixelCanvas extends Canvas implements Runnable
         Graphics g = bs.getDrawGraphics();
 
         g.setColor(Color.BLUE);
-        //g.fillRect(0,0,getWidth(),getHeight());
+        //if(AUTO_CLEAR) g.fillRect(0,0,getWidth(),getHeight());
 
         g.drawImage(image,0,0,WIDTH,HEIGHT,null);
 
@@ -139,14 +144,20 @@ public class PixelCanvas extends Canvas implements Runnable
         g.dispose();
         bs.show();
         frames++;
+        SET_TIMES = 0;
     }
 
     public void clear() {
+        /*
         for(int y=0; y< HEIGHT; y++) {
             for(int x=0; x < WIDTH; x++) {
                 pixels[x+y*WIDTH]=0;
+                //setPixel( x, y, 0, 0, 0 );
             }
         }
+        */
+        
+        for(int i=0; i<pixels.length; i++) pixels[i] = 0;
     }
 
     public int getByPos(int x, int y, int w) {
@@ -168,14 +179,19 @@ public class PixelCanvas extends Canvas implements Runnable
         try{
             if(x<0 || y<0) return;
             if(x>=WIDTH || y>=HEIGHT) return;
-            int i = x + y * WIDTH;
-            pixels[i]=getColor(r,g,b);
+            
+            //int i = x + y * WIDTH;
+            //pixels[i]=getColor(r,g,b);
+            
+            pixels[x + y * WIDTH]=getColor(r,g,b);
+            
+            SET_TIMES ++;
         }catch(Exception e) {
 
         }
     }
 
-    //Test Method, possibly faster
+    //Faster than the old way
     ///*
     public static int getColor(int r, int g, int b) {
         //int r2=r<<16;

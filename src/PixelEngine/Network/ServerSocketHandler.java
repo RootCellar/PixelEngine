@@ -5,6 +5,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 import PixelEngine.Server.*;
+import PixelEngine.Util.*;
 
 public class ServerSocketHandler implements Runnable
 {
@@ -56,6 +57,7 @@ public class ServerSocketHandler implements Runnable
         socket=null;
         for(int i=10000; i<65535; i++) {
             try{
+                out("Trying port " + i + "...");
                 socket = new ServerSocket(i);
                 setup=true;
                 port=i;
@@ -65,6 +67,7 @@ public class ServerSocketHandler implements Runnable
             }catch(Exception e) {
                 setup = false;
                 socket=null;
+                out("Port " + i + " didn't work");
             }
         }
         finished=true;
@@ -72,6 +75,8 @@ public class ServerSocketHandler implements Runnable
     }
 
     public void setup(int p) throws Exception {
+        if(!finished) return;
+
         finished=false;
         setup=false;
         done=false;
@@ -88,6 +93,8 @@ public class ServerSocketHandler implements Runnable
         }catch(Exception e) {
             setup = false;
             socket=null;
+            finished=true;
+            throw new Exception("Could not find a valid port");
         }
     }
 
@@ -128,20 +135,18 @@ public class ServerSocketHandler implements Runnable
 
         while(!done) {
             try{
-
                 client=socket.accept();
                 if(client!=null) {
-                    out("A client has connected");
+                    //out("A client has connected");
 
                     SocketHandler so = new SocketHandler(client);
 
-                    out("IP: " + so.getAddress() );
+                    out("Connection received. IP: " + so.getAddress() );
 
-                    so.sendString("Received connection", (short) 0, (short) 0);
+                    so.sendString("Received connection");
 
                     server.addSocket( so );
                 }
-
             }catch(Exception e) {
 
             }
@@ -176,6 +181,6 @@ public class ServerSocketHandler implements Runnable
     }
 
     public void out(String s) {
-        server.out(s);
+        server.out("[SERVER SOCKET HANDLER] " + s);
     }
 }

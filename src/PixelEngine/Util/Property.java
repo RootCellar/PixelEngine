@@ -10,6 +10,8 @@ public class Property
     String name;
     String value;
     
+    boolean updated = false;
+    
     public Property(String n, String v) {
         name = n;
         value = v;
@@ -17,6 +19,7 @@ public class Property
     
     public void setValue(String s) {
         value = s;
+        updated = true;
     }
     
     public void setName(String s) {
@@ -28,6 +31,14 @@ public class Property
     }
     
     public String getValue() {
+        return value;
+    }
+    
+    public void reset() { updated = false; }
+    public boolean updated() { return updated; }
+    
+    public String getUpdate() {
+        updated = false;
         return value;
     }
     

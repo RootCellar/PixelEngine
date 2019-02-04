@@ -2,10 +2,10 @@ package PixelEngine.Util;
 
 public class RAMChecker 
 {
-    long totalMem = 0;
-    long freeMem = 0;
-    long maxMem = 0;
-    long used = 0;
+    public long totalMem = 0;
+    public long freeMem = 0;
+    public long maxMem = 0;
+    public long used = 0;
     
     double percentUsed = 0;
     

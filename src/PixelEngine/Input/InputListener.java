@@ -9,8 +9,9 @@ public class InputListener implements KeyListener
 {
     public class Key
     {
-        public boolean down=false;
-        public boolean wasDown=false;
+        public boolean down = false;
+        public boolean wasDown = false;
+        public boolean wasUp = false;
         public void Key()
         {
             keys.add(this);
@@ -18,15 +19,24 @@ public class InputListener implements KeyListener
 
         public void toggle(boolean pressed) {
             if(pressed && !down) wasDown=true;
+            if(!pressed) wasUp = true;
             down = pressed;
         }
 
         public boolean wasDown() {
             if(wasDown) {
-                wasDown=false;
+                wasDown = false;
                 return true;
             }
-            else return false;
+            return false;
+        }
+        
+        public boolean wasUp() {
+            if(wasUp) {
+                wasUp = false;
+                return true;
+            }
+            return false;
         }
     }
     

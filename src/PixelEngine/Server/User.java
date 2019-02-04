@@ -12,6 +12,12 @@ public class User implements SocketUser
     public Room room;
     
     public Registry data = new Registry();
+    public Registry gameData = new Registry();
+    
+    boolean pingCheck = false;
+    
+    long pingSent = 0;
+    long ping = 999;
     
     public User(SocketHandler s) {
         socketHandler = s;
@@ -19,8 +25,41 @@ public class User implements SocketUser
         s.setUser(this);
     }
     
+    public long getPing() { return ping; }
+    
+    public void checkPing() {
+        if(pingCheck) return;
+        
+        pingCheck = true;
+        
+        Message m = new Message( (short) GameNetMessage.PING_CHECK.getId(), (short) 0);
+        
+        pingSent = System.nanoTime();
+        
+        send(m);
+    }
+    
+    public void pingReceive() {
+        long rec = System.nanoTime();
+        
+        ping = rec - pingSent;
+        
+        ping /= 1000000;
+        
+        pingCheck = false;
+        //checkPing();
+    }
+    
     public Registry getData() {
         return data;
+    }
+    
+    public Registry getGameData() {
+        return gameData;
+    }
+    
+    public void disconnect() {
+        socketHandler.close();
     }
     
     public boolean isConnected() {
@@ -32,7 +71,9 @@ public class User implements SocketUser
     }
     
     public void setRoom(Room r) {
-        data.clear();
+        //data.clear(); //Data may still be useful!
+        gameData.clear(); //This....not so much
+        
         if(room != null) room.removeUser(this);
         room = r;
         send("Moving you to a new room...");
@@ -47,7 +88,7 @@ public class User implements SocketUser
     }
     
     public void send(String s) {
-        Message m = new Message( (short) 0, (short) 0);
+        Message m = new Message( (short) GameNetMessage.CHAT.getId(), (short) 0);
         
         m.setString(s);
         
@@ -60,8 +101,13 @@ public class User implements SocketUser
     
     public void inputBytes(byte[] b) {
         //System.out.println("USER: R");
-        if(room != null) {
-            room.receive( this, new Message(b) );
+        Message m = new Message(b);
+        
+        if(m.getType() == GameNetMessage.PING_CHECK.getId()) {
+            pingReceive();
+        }
+        else if(room != null) {
+            room.receive( this, m );
         }
     }
     

@@ -5,7 +5,7 @@ import PixelEngine.Network.*;
 import PixelEngine.Util.*;
 import PixelEngine.Logging.*;
 
-public class Server implements Runnable
+public class Server implements Runnable, Outputter
 {
     //Logging
     Logger logger = new Logger("Server", "Server");
@@ -14,6 +14,7 @@ public class Server implements Runnable
     //Useful Objects
     public ServerSocketHandler serverSocket;
     public Registry registry = new Registry();
+    public MessageTypes messageTypes = new MessageTypes(this);
 
     //Variables
     public boolean going = false;
@@ -24,7 +25,13 @@ public class Server implements Runnable
     public int ticks2 = 0;
 
     public Server() {
+        MessageTypes.add(GameNetMessage.values());
+        
         serverSocket = new ServerSocketHandler(this);
+        
+        Inventory.netMode = true;
+        Level.MODE_NET = true;
+        Level.o = this;
         
         //SocketHandler.setWaitTime(0);
         
@@ -130,7 +137,7 @@ public class Server implements Runnable
     }
 
     public void out(String s) {
-        System.out.println(s);
+        System.out.println("[SERVER] " + s);
         logger.log(s);
     }
     

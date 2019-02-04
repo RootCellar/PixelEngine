@@ -11,23 +11,24 @@ public class PixelBar
     double x = -100;
     double y = -100;
     
-    int rc = 0;
-    int gc = 255;
-    int bc = 0;
+    public int rc = 0;
+    public int gc = 255;
+    public int bc = 0;
     
-    int roc = 255;
-    int goc = 0;
-    int boc = 0;
+    public int roc = 255;
+    public int goc = 0;
+    public int boc = 0;
     
     static boolean DRAW = true;
     public void render(PixelCanvas c) {
         if(!DRAW) return;
         double howMuch = ( percent / 100.0 ) * ((double)width);
         int howMuch2 = (int)howMuch;
+        
         for(int i=0; i<width; i++) {
             for(int k=0; k<height; k++) {
                 //if(i>howMuch2) g.drawPixel(x+i, y+k, 255-rc, 255-gc, 255-bc);
-                if(i>howMuch2) c.drawPixel(x+i, y+k, roc, goc, boc);
+                if(i>howMuch2) c.drawPixel( (int) (x+i), (int) (y+k), roc, goc, boc);
                 else c.drawPixel(x+i, y+k, rc, gc, bc);
             }
         }

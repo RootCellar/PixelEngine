@@ -6,9 +6,6 @@ public class MouseHelper
 {
     PixelCanvas canvas;
 
-    double dx = 0;
-    double dy = 0;
-
     double zoom = 1;
 
     double wasX = 0;
@@ -16,11 +13,6 @@ public class MouseHelper
 
     public MouseHelper(PixelCanvas c) {
         canvas = c;
-    }
-
-    public void setCenter(int x, int y) {
-        dx = x;
-        dy = y;
     }
 
     public void setZoom(double z) {
@@ -41,6 +33,8 @@ public class MouseHelper
         newX -= canvas.xd;
         newY -= canvas.yd;
         
+        newX += canvas.xo;
+        newY += canvas.yo;
 
         //mousePos.translate((int) (dx) , (int) (dy) );
         
