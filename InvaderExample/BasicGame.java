@@ -16,17 +16,22 @@ import PixelEngine.Util.*;
 //Java Library imports
 import java.awt.Graphics;
 
-
 //The class
 public class BasicGame extends Game
 {
+
     //Just can't escape this method...
     public static void main(String[] args) {
         new BasicGame();
+        //That's about all that's needed...
     }
 
     //Variables/Objects for the game
     PixelBar bar = new PixelBar();
+
+    int polyRot = 0;
+
+    int stage = 0;
 
     public BasicGame() {
         super();
@@ -50,42 +55,71 @@ public class BasicGame extends Game
     public void setup() {
         player = new InvaderPlayer(); //We'll use our special kind of player
 
+        stage = 0;
+
         //Spawn position
         player.x = 0;
         player.y = 700;
 
-        //Put out player into the level, the engine does not do this automatically
+        //Put player into the level
+        //the engine does not do this automatically, so that
+        //programmers can use custom player classes and have more control
         engine.getLevel().add(player);
 
-        for(int i = 0; i<10; i++) {
-            Invader inv = new Invader();
-            inv.x = 0;
-            inv.y = 0;
-            engine.getLevel().add(inv);
-        }
+        InvaderBoss inv = new InvaderBoss();
+        inv.x = 0;
+        inv.y = 300;
+
+        //engine.getLevel().add(inv);
+
     }
 
     public int getInvaderCount() {
         int count = 0;
         for(Entity e : engine.getLevel().entities) {
-            if(e instanceof Invader) count++;
+            if(e instanceof Invader || e instanceof InvaderBoss) count++;
         }
 
         return count;
     }
 
+    public void newStage() {
+        ( (InvaderPlayer) player ).score += 100;
+        stage++;
+
+        int numEnems = ( 2 * (stage - 1) ) + 4;
+
+        int num4 = stage / 20;
+        int num3 = stage / 10;
+        int num2 = stage / 5;
+
+        spawnInv(1, numEnems);
+        spawnInv(2, num2);
+        spawnInv(3, num3);
+        spawnInv(4, num4);
+
+    }
+
+    public void spawnInv(int l, int n) {
+        for(int i = 0; i<n; i++) {
+            Invader inv = new Invader(l);
+            inv.x = (Math.random() * 1000) - 500;
+            inv.y = 0;
+            engine.getLevel().add(inv);
+        }
+    }
+
     //Simulate the game
     //This method is part of the main loop
     public void tick() {
+        if(polyRot++ > 359) polyRot = 0;
+
         //Grab the inputlistener, make it easier to look at key input
-        //Could be done in constructor, with a global object, but...nah.
+        //Could be done in constructor, with a global object.
         InputListener in = engine.getInput();
 
-        if(getInvaderCount() < 10) {
-            Invader inv = new Invader();
-            inv.x = 0;
-            inv.y = 0;
-            engine.getLevel().add(inv);
+        if(getInvaderCount() < 1) {
+            newStage();
         }
 
         //Let's keep the player where we want them to be
@@ -94,7 +128,7 @@ public class BasicGame extends Game
 
         //Uh-oh...the player died!?!?!?
         if( player.isAlive == false ) {
-            revivePlayer();
+            engine.setMenu( new DeadMenu(engine) );
         }
 
         //Handle controls
@@ -138,10 +172,17 @@ public class BasicGame extends Game
         }
 
         if(in.p.wasDown()) {
-            for(double i = 0; i<90; i++) {
+            for(double i = 0; i<50; i++) {
                 Projectile p = new Projectile(player);
 
-                p.setByRot(i * 4, 3);
+                p.x = player.x;
+                p.y = player.y;
+
+                p.damage = 0;
+                p.damageRange = 15;
+
+                p.setByRot(270, 10);
+                p.setOffset(45);
 
                 engine.getLevel().add(p);
             }
@@ -162,6 +203,12 @@ public class BasicGame extends Game
             ( (InvaderPlayer) player ).shoot();
         }
 
+        if(in.m.wasDown()) {
+            for(Entity e : engine.getLevel().entities) {
+                if(e instanceof Invader) engine.getLevel().remove(e);
+            }
+        }
+
         engine.getLevel().tick(); //Tick the level, which includes the entities, mobs, and projectiles
     }
 
@@ -170,7 +217,6 @@ public class BasicGame extends Game
     public void render() {
 
         if( engine.getScreen().ZOOM < 0.125 ) engine.getScreen().ZOOM = 0.125;
-
         if( engine.getScreen().ZOOM > 8 ) engine.getScreen().ZOOM = 8;
 
         PixelCanvas c = engine.getScreen();
@@ -178,30 +224,15 @@ public class BasicGame extends Game
         Level level = engine.getLevel();
 
         c.clear(); //Clear the screen, make it all black
-        //engine.getScreen().randomize();
+        //engine.getScreen().randomize(); //Randomizes the screen (May be interesting)
 
         c.setCenter( 0, 500 ); //Set the center of the screen
 
-        //c.setCenter( player.x, player.y );
+        //c.setCenter( player.x, player.y ); //Place player at the center of the screen
 
         engine.renderBorder(); //Render the level border, and the dots
 
         engine.renderEntities(); //Render mobs, projectiles, and items
-
-        /*
-        c.drawCircle(player.x, player.y, 255, 255, 255, player.size);
-        c.drawCircle(player.x, player.y, 255, 255, 255, player.size * 20);
-
-        c.drawLine(player.x, player.y, 0, 0, 255, 255, 255);
-
-        c.drawLine( player.x, player.y, -1 * level.xBound, -1 * level.yBound, 255, 0, 0, 100 );
-        c.drawLine( player.x, player.y, level.xBound, -1 * level.yBound, 0, 255, 0, 100 );
-        c.drawLine( player.x, player.y, -1 * level.xBound, level.yBound, 0, 0, 255, 100 );
-        c.drawLine( player.x, player.y, level.xBound, level.yBound, 255, 255, 0, 100 );
-
-        c.drawLine( player.x, player.y, 0, -1 * level.yBound, 255, 0, 255, 100 );
-        c.drawLine( player.x, player.y, 0, level.yBound, 0, 255, 255, 100 );
-        */
 
         c.render(); //Take the pixels, push them to the screen
     }
@@ -211,5 +242,7 @@ public class BasicGame extends Game
     public void draw(Graphics g) {
         g.drawString("Time: " + System.nanoTime(), 50, 60);
         g.drawString("ZOOM: " + engine.getScreen().ZOOM, 50, 80);
+        g.drawString("Stage: " + stage, 50, 100);
+        g.drawString("Score: " + ( (InvaderPlayer) player ).score, 50, 120);
     }
 }

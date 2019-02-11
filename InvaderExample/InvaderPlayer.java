@@ -1,15 +1,37 @@
-import PixelEngine.Game.*;
+/*
+*
+*   Darian Marvel - 2/1/19
+*   Making a special player class just for the invader game
+*
+*/
 
+import PixelEngine.Game.*;
 import PixelEngine.Screen.*;
 
-public class InvaderPlayer extends Player{
+public class InvaderPlayer extends Player {
 
     int shootTime = 0;
+
+    int score = 0;
 
     public InvaderPlayer() {
         super();
 
         name = "Invader Player";
+        regen = 0.001;
+    }
+
+    public void damage(double a) {
+        hp-=a;
+        damageTime = 400;
+        checkHp();
+
+        score -= 100;
+    }
+
+    public void killed(Mob m) {
+        if(m instanceof Invader) score += 50;
+        if(m instanceof InvaderBoss) score += 1000;
     }
 
     //Our own way of ticking
@@ -18,6 +40,9 @@ public class InvaderPlayer extends Player{
         super.tick();
 
         if(shootTime > 0) shootTime--;
+        damageTime = 0;
+
+        if(score < 0) score = 0;
 
     }
 
@@ -45,6 +70,19 @@ public class InvaderPlayer extends Player{
         level.add(pProj);
 
         shootTime = 5;
+    }
+
+    public void render(PixelCanvas c) {
+
+        c.drawPolygon(x, y, 10, 3, -90, 255, 255, 255);
+
+        double[] pos = findPosByAngle(x, y, 30, 10);
+        c.drawPolygon(x + pos[0], y + pos[1], 7, 3, 90, 255, 255, 255);
+
+        pos = findPosByAngle(x, y, 150, 10);
+        c.drawPolygon(x + pos[0], y + pos[1], 7, 3, 90, 255, 255, 255);
+
+        HPbar.render(c);
     }
 
 }
