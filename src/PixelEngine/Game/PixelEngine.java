@@ -73,6 +73,16 @@ public class PixelEngine implements Runnable, PixelCanvasUser
 
     }
 
+    public void reset() {
+
+        level.clear();
+
+        setMenu(new Menu(this));
+
+        game.setup();
+
+    }
+
     public Menu getMenu() {
         return menu;
     }

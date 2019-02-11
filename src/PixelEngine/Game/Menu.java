@@ -15,7 +15,7 @@ import java.awt.*;
 
 public class Menu implements PixelCanvasUser
 {
-    PixelEngine engine;
+    public PixelEngine engine;
 
     String[] choices = {
                         "Start Game" ,

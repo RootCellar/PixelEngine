@@ -17,7 +17,7 @@ import PixelEngine.Logging.*;
 public class Level
 {
 
-    //May be mroe useful, some day... 2/1/19
+    //May be more useful, some day... 2/1/19
     public enum State {
         NORMAL, //Normal, everything is good...
         FROZEN, //Level is frozen, will not tick, even if told to
@@ -54,7 +54,7 @@ public class Level
     public double xBound = 1000;
     public double yBound = 1000;
 
-    //Keeping track of how long these things take to tick/simulate
+    //Keeping track of how long things take to tick/simulate
     public int entityTickingTime = 0;
     public int teamTickingTime = 0;
     public int levelTickingTime = 0;
@@ -76,6 +76,16 @@ public class Level
         setState(State.NORMAL);
 
         if(idPoint > 1000000000) idPoint = -1000000000;
+    }
+
+    public void clear() {
+        while(entities.size() > 0) entities.remove(0);
+        while(pendingSpawns.size() > 0) pendingSpawns.remove(0);
+        while(pendingDespawns.size() > 0) pendingDespawns.remove(0);
+
+        while(projectiles.size() > 0) projectiles.remove(0);
+        while(teams.size() > 0) teams.remove(0);
+        while(tiles.size() > 0) tiles.remove(0);
     }
 
     public void setName(String s) {
