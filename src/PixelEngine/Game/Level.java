@@ -1,10 +1,10 @@
 /*
-*
-*   Where things take place
-*   For singleplayer games, this class is very simple to used
-*   For multiplayer games, this class gets a little bit more complicated
-*
-*/
+ *
+ *   Where things take place
+ *   For singleplayer games, this class is very simple to used
+ *   For multiplayer games, this class gets a little bit more complicated
+ *
+ */
 
 package PixelEngine.Game;
 
@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import PixelEngine.Util.*;
 import PixelEngine.Network.*;
 import PixelEngine.Logging.*;
+import PixelEngine.Server.*;
 
 public class Level
 {
@@ -100,6 +101,9 @@ public class Level
     }
 
     public ArrayList<Entity> getEntities() { return entities; }
+    
+    public ArrayList<Projectile> getProjectiles() { return projectiles; }
+
     public ArrayList<Team> getTeams() { return teams; }
 
     public ArrayList<Player> getPlayers() {
@@ -112,27 +116,35 @@ public class Level
         return toRet;
     }
 
-    public void receiveUpdates(ArrayList<Message> receive) {
-        for(Message m : receive) {
+    public void receiveUpdates(ArrayList<ServerMessage> receive) {
+        for(ServerMessage m : receive) {
 
-            if(m.getType() == GameNetMessage.TILE_PLACE.getId()) {
-                Tile t = new Tile(m.getId());
-
-                t.x = m.readShort();
-                t.y = m.readShort();
-
-                place(t);
-            }
-            else {
-                for(Entity e : entities) {
-                    if(m.getId() == e.id) e.passUpdate(m);
-                }
-            }
+            receiveUpdate(m);
 
         }
     }
 
+    public void receiveUpdate(ServerMessage message) {
+        User from = message.getFrom();
+        Message m = message.getMessage();
+        
+        if(m.getType() == GameNetMessage.TILE_PLACE.getId()) {
+            Tile t = new Tile(m.getId());
+
+            t.x = m.readShort();
+            t.y = m.readShort();
+
+            place(t);
+        }
+        else {
+            for(Player p : getPlayers()) {
+                if( p.user != null && from.equals(p.user) ) p.passUpdate(m);
+            }
+        }
+    }
+
     //Useful for multiplayer games to help new clients get into things
+    //(Returns a list of messages that tell the client what already exists)
     public ArrayList<Message> getSetupData() {
         ArrayList<Message> toRet = new ArrayList<Message>();
 
@@ -153,26 +165,20 @@ public class Level
     public ArrayList<Message> getUpdates() {
         ArrayList<Message> toRet = new ArrayList<Message>();
 
-        for(Entity e : additions) {
-            toRet.add(e.getSpawnMessage());
-            additions.remove(e);
+        //Spawns and despawns
+        while(additions.size() > 0) {
+            Entity added = additions.remove(0);
+            toRet.add(added.getSpawnMessage());
         }
 
-        for(Entity e : removals) {
-            toRet.add(e.getDespawnMessage());
-            removals.remove(e);
+        while(removals.size() > 0) {
+            Entity removed = removals.remove(0);
+            toRet.add(removed.getDespawnMessage());
         }
 
-        for(Tile t : tileAdditions) {
-            toRet.add(t.getPlaceMessage());
-            tileAdditions.remove(t);
-        }
+        //Tiles
 
-        for(Tile t : tileRemovals) {
-            toRet.add(t.getDestroyMessage());
-            tileRemovals.remove(t);
-        }
-
+        //Updates
         for(Entity e : entities) {
 
             for(Message m : e.getUpdates()) {
@@ -180,6 +186,36 @@ public class Level
             }
 
         }
+        
+        for(Projectile p : projectiles) {
+
+            for(Message m : p.getUpdates()) {
+                toRet.add(m);
+            }
+
+        }
+
+        /*
+        for(Entity e : additions) {
+        toRet.add(e.getSpawnMessage());
+        additions.remove(e);
+        }
+
+        for(Entity e : removals) {
+        toRet.add(e.getDespawnMessage());
+        removals.remove(e);
+        }
+
+        for(Tile t : tileAdditions) {
+        toRet.add(t.getPlaceMessage());
+        tileAdditions.remove(t);
+        }
+
+        for(Tile t : tileRemovals) {
+        toRet.add(t.getDestroyMessage());
+        tileRemovals.remove(t);
+        }
+         */
 
         return toRet;
     }
@@ -219,6 +255,28 @@ public class Level
     public void destroy(Tile t) {
         tiles.remove(t);
         if(MODE_NET) tileRemovals.add(t);
+    }
+    
+    public void handleAdditions() {
+        while(pendingSpawns.size()>0) {
+            Entity toAdd = pendingSpawns.remove(0);
+
+            if(toAdd instanceof Projectile) projectiles.add( (Projectile) toAdd);
+            else entities.add( toAdd );
+
+            if(MODE_NET) additions.add(toAdd);
+        }
+    }
+    
+    public void handleRemovals() {
+        while(pendingDespawns.size()>0) {
+            Entity toRem = pendingDespawns.remove(0);
+
+            if(toRem instanceof Projectile) projectiles.remove(toRem);
+            else entities.remove( toRem );
+
+            if(MODE_NET) removals.add(toRem);
+        }
     }
 
     //Where all the things happen

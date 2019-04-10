@@ -1,9 +1,14 @@
 package PixelEngine.Game;
 
+import PixelEngine.Server.*;
+import PixelEngine.Game.*;
 import PixelEngine.Screen.*;
+import PixelEngine.Network.*;
 
 public class Player extends Mob
 {
+    public User user;
+    
     public int kills = 0;
 
     public double dx = 0;
@@ -41,7 +46,7 @@ public class Player extends Mob
 
     public void die() {
         isAlive=false;
-        level.remove(this);
+        if(level != null) level.remove(this);
     }
 
     public void killed(Mob m) {

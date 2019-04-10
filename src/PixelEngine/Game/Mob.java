@@ -42,6 +42,13 @@ public class Mob extends Entity
     public Mob() {
         super();
     }
+    
+    public void restore() {
+        addHp(maxHp);
+        addHunger(maxHunger);
+        addThirst(maxThirst);
+        addStamina(maxStamina);
+    }
 
     public void forceUpdate() {
         super.forceUpdate();
@@ -125,7 +132,7 @@ public class Mob extends Entity
     public void revive() {
         isAlive=true;
         hp=maxHp;
-        level.add(this);
+        if(level!=null) level.add(this);
     }
 
     public void killed(Mob m) {

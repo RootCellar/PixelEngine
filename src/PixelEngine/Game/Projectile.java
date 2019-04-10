@@ -1,6 +1,7 @@
 package PixelEngine.Game;
 
 import PixelEngine.Screen.*;
+import PixelEngine.Network.*;
 
 import java.util.ArrayList;
 public class Projectile extends Entity
@@ -21,13 +22,37 @@ public class Projectile extends Entity
     public Team team;
 
     public Projectile(Mob m) {
-        shooter = m;
-        team = shooter.team;
+        if(m != null) shooter = m;
+        if(m != null) team = shooter.team;
+    }
+    
+    public Message getSpawnMessage() {
+        return new Message( (short) MessageTypes.getId("PROJ_SPAWN"), id);
+    }
+    
+    public Message getDespawnMessage() {
+        return new Message( (short) MessageTypes.getId("PROJ_REMOVE"), id);
     }
 
     public void setOffset(double acc) {
         double offset = (Math.round( Math.random() * ( acc * 2 ) ) - acc );
         setByRot(rot + offset, speed);
+    }
+    
+    public ArrayList<Message> getUpdates() {
+        ArrayList<Message> updates = new ArrayList<Message>();
+        
+        if(posUpdated) {
+            Message m = new Message( (short) GameNetMessage.PROJ_MOVE.getId(), id);
+            
+            m.putShort((short) x);
+            m.putShort((short) y);
+            
+            updates.add(m);
+            posUpdated = false;
+        }
+        
+        return updates;
     }
 
     public void setByRot(double r, double s) {
@@ -58,6 +83,8 @@ public class Projectile extends Entity
         }
         x+=velocX;
         y+=velocY;
+        
+        posUpdated = true;
 
         hitInRange();
     }
