@@ -5,6 +5,8 @@ import PixelEngine.Network.*;
 import PixelEngine.Util.*;
 import PixelEngine.Logging.*;
 
+import java.util.concurrent.*;
+
 public class Server implements Runnable, Outputter
 {
     //Logging
@@ -15,6 +17,8 @@ public class Server implements Runnable, Outputter
     public ServerSocketHandler serverSocket;
     public Registry registry = new Registry();
     public MessageTypes messageTypes = new MessageTypes(this);
+    
+    public ConcurrentLinkedQueue<ServerMessage> messages = new ConcurrentLinkedQueue<ServerMessage>();
 
     //Variables
     public boolean going = false;
@@ -41,6 +45,19 @@ public class Server implements Runnable, Outputter
             serverSocket.setup();
         }catch(Exception e) {
             out("Can't set up server socket handler");
+        }
+    }
+    
+    public void parseMessages() {
+        while( messages.size() > 0 ) parseMessage( messages.poll() );
+    }
+    
+    public void parseMessage(ServerMessage m) {
+        Message message = m.getMessage();
+        User user = m.getFrom();
+        
+        if( message.getId() == MessageTypes.getId("NAME_SET") ) {
+            
         }
     }
 

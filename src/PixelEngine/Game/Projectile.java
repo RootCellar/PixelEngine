@@ -1,46 +1,47 @@
 package PixelEngine.Game;
 
 import PixelEngine.Screen.*;
+import PixelEngine.Network.*;
 
 import java.util.ArrayList;
 public class Projectile extends Entity
 {
-    double velocX = 0;
-    double velocY = 0;
-    int maxTime = 1000;
+    public double velocX = 0;
+    public double velocY = 0;
+    public int maxTime = 1000;
 
-    int time = 0;
-    int damage = 0;
-    int damageRange = 10;
-    int size = 2;
+    public int time = 0;
+    public int damage = 0;
+    public int damageRange = 10;
+    public int size = 2;
 
-    Mob shooter;
-    Team team;
+    public double rot = 0;
+    public double speed = 0;
+
+    public Mob shooter;
+    public Team team;
 
     public Projectile(Mob m) {
-        try{
-            shooter = m;
-            team = shooter.team;
-        }catch(Exception e) {}
+        shooter = m;
+        team = shooter.team;
+    }
+    
+    public Message getSpawnMessage() {
+        return new Message( (short) MessageTypes.getId("PROJ_SPAWN"), id);
+    }
+    
+    public Message getDespawnMessage() {
+        return new Message( (short) MessageTypes.getId("PROJ_REMOVE"), id);
     }
 
-    public int setOffset(int acc) {
-        int offset = (int)(Math.round( Math.random() * ( acc * 2 ) ) - acc );
-        if(velocX!=0) y+=offset;
-        if(velocY!=0) x+=offset;
-        return offset;
+    public void setOffset(double acc) {
+        double offset = (Math.round( Math.random() * ( acc * 2 ) ) - acc );
+        setByRot(rot + offset, speed);
     }
 
-    public void setByDir(int dir, double speed) {
-        velocX=0;
-        velocY=0;
-        if(dir==0) velocY=speed*-1;
-        if(dir==1) velocX=speed;
-        if(dir==2) velocY=speed;
-        if(dir==3) velocX=speed*-1;
-    }
-
-    public void setByRot(double rot, double speed) {
+    public void setByRot(double r, double s) {
+        speed = s;
+        rot = r;
         velocX = Math.cos( Math.toRadians(rot) ) * speed;
         velocY = Math.sin( Math.toRadians(rot) ) * speed;
     }
@@ -58,8 +59,6 @@ public class Projectile extends Entity
     public void remove() {
         level.remove(this);
     }
-    
-    public void setDamage(int d) { damage = d; }
 
     public void tick() {
         time++;
@@ -89,5 +88,5 @@ public class Projectile extends Entity
             }
         }
         //game.drawPixel(x, y, 0, 255, 0);
-    }   
+    }
 }

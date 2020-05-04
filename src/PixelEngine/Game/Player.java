@@ -1,26 +1,32 @@
 package PixelEngine.Game;
 
+import PixelEngine.Server.*;
+import PixelEngine.Game.*;
 import PixelEngine.Screen.*;
+import PixelEngine.Network.*;
 
 public class Player extends Mob
 {
+    //For multiplayer games
+    public User user;
+
     public int kills = 0;
-    
+
     public double dx = 0;
     public double dy = 0;
 
     public Player() {
         super();
+        name = "Player";
         maxHp = 100;
-        //hp = maxHp;
-        hp = 1;
-        regen = maxHp / 1000;
+        hp = maxHp;
+        regen = 0.005;
         team = new Team();
         speed = 2;
-        size = 15;
+        size = 5;
         y = 500;
     }
-    
+
     public void damage(double a) {
         hp-=a;
         damageTime = 400;
@@ -41,7 +47,7 @@ public class Player extends Mob
 
     public void die() {
         isAlive=false;
-        level.remove(this);
+        if(level != null) level.remove(this);
     }
 
     public void killed(Mob m) {
@@ -51,31 +57,16 @@ public class Player extends Mob
     public void render(PixelCanvas c) {
         c.drawSquare((int)x-3, (int)y-3, (int)x+3, (int)y+3, 255, 255, 255);
 
-        //c.drawCircle(x, y, 255, 255, 255, size);
-        
-        //c.drawCircle(x, y, 255, 255, 255, size * 20);
-        
-        //c.drawLine(x, y, level.xBound / 2, level.yBound / 2, 255, 255, 255);
-        
-        //c.drawLine( x, y, 0, 0, 255, 0, 0, 100 );
-        //c.drawLine( x, y, level.xBound, 0, 0, 255, 0, 100 );
-        //c.drawLine( x, y, 0, level.yBound, 0, 0, 255, 100 );
-        //c.drawLine( x, y, level.xBound, level.yBound, 255, 255, 0, 100 );
-        
-        //c.drawLine( x, y, level.xBound / 2, 0, 255, 0, 255, 100 );
-        //c.drawLine( x, y, level.xBound / 2, level.yBound, 0, 255, 255, 100 );
-        //c.drawLine( x, y, level.xBound, level.yBound / 2, 0, 0, 255, 100 );
-        
         HPbar.render(c);
     }
 
     public void tick() {
         super.tick();
-        
+
         HPbar.set( x - 20, y + 15, 40, 10 );
-        
+
         dx = x;
         dy = y;
-        
+
     }
 }

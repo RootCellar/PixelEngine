@@ -1,3 +1,11 @@
+/*
+*
+*   The head-honcho, the boss man for singleplayer games
+*   Handles setup, main loop, and contains some useful objects
+*   Could potentially be extended/modified to make a custom engine...oooh.
+*
+*/
+
 package PixelEngine.Game;
 
 import PixelEngine.Input.*;
@@ -18,7 +26,7 @@ public class PixelEngine implements Runnable, PixelCanvasUser
     private Level level = new Level();
 
     private Logger toLog = new Logger("Engine", "Engine");
-    
+
     private Logger gameLog = new Logger("Game", "Game");
 
     private Player player = new Player();
@@ -44,25 +52,35 @@ public class PixelEngine implements Runnable, PixelCanvasUser
         out("Constructing...");
 
         game = g;
-        
+
         out("Creating Screen...");
-        
+
         screen = new PixelCanvas();
 
         screen.user = this;
-        
+
         out("Setting up keyboard input...");
 
         input = new InputListener(screen);
 
         //out("Placing player in the level...");
-        
+
         //level.add(player);
-        
+
         out("Setting start menu...");
-        
+
         setMenu( new Menu(this) );
-        
+
+    }
+
+    public void reset() {
+
+        level.clear();
+
+        setMenu(new Menu(this));
+
+        game.setup();
+
     }
 
     public Menu getMenu() {
@@ -74,10 +92,10 @@ public class PixelEngine implements Runnable, PixelCanvasUser
 
         out("Changed Menu");
     }
-    
+
     public void debug(String s) {
         out("Debugging for game: " + s);
-        
+
         gameLog.log(s);
     }
 
@@ -132,7 +150,7 @@ public class PixelEngine implements Runnable, PixelCanvasUser
         going = true;
         new Thread(this).start();
     }
-    
+
     public void stop() {
         going = false;
     }
@@ -142,7 +160,7 @@ public class PixelEngine implements Runnable, PixelCanvasUser
             for(int k=-1 * (int)level.yBound; k<level.yBound; k+=50) {
                 screen.drawPixel(i, k, 255, 255, 255);
             }
-        }   
+        }
 
         for(int i=-1 * (int)level.xBound; i<level.xBound; i++) { //Top Border
             screen.drawPixel(i, -1 * level.yBound, 255, 255, 255);
@@ -165,7 +183,7 @@ public class PixelEngine implements Runnable, PixelCanvasUser
         for( Entity e : level.entities ) {
             e.render(screen);
         }
-        
+
         for(Projectile p : level.projectiles) {
             p.render(screen);
         }
@@ -186,7 +204,7 @@ public class PixelEngine implements Runnable, PixelCanvasUser
         //setup();
 
         int eInRow = 0; //Keep track of how many loops are interrupted in a row
-        
+
         //Set up Game
         out("Setting up game...");
         game.setup();
