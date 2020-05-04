@@ -21,7 +21,6 @@ public enum GameNetMessage
     MOB_REMOVE,
     MOB_RESIZE,
     MOB_POS,
-    MOB_ROT,
     
     //Mob Stats
     MOB_HP,
@@ -53,7 +52,6 @@ public enum GameNetMessage
     
     //Mouse Input
     MOUSE_POS,
-    MOUSE_ANGLE,
     ;
     
     String name;

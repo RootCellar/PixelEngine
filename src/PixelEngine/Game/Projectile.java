@@ -22,8 +22,8 @@ public class Projectile extends Entity
     public Team team;
 
     public Projectile(Mob m) {
-        if(m != null) shooter = m;
-        if(m != null) team = shooter.team;
+        shooter = m;
+        team = shooter.team;
     }
     
     public Message getSpawnMessage() {
@@ -37,22 +37,6 @@ public class Projectile extends Entity
     public void setOffset(double acc) {
         double offset = (Math.round( Math.random() * ( acc * 2 ) ) - acc );
         setByRot(rot + offset, speed);
-    }
-    
-    public ArrayList<Message> getUpdates() {
-        ArrayList<Message> updates = new ArrayList<Message>();
-        
-        if(posUpdated) {
-            Message m = new Message( (short) GameNetMessage.PROJ_MOVE.getId(), id);
-            
-            m.putShort((short) x);
-            m.putShort((short) y);
-            
-            updates.add(m);
-            posUpdated = false;
-        }
-        
-        return updates;
     }
 
     public void setByRot(double r, double s) {
@@ -83,8 +67,6 @@ public class Projectile extends Entity
         }
         x+=velocX;
         y+=velocY;
-        
-        posUpdated = true;
 
         hitInRange();
     }

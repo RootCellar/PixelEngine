@@ -27,6 +27,7 @@ public class Level
     }
 
     //Set to true if this level is being used for a multiplayer (online) game.
+    //Makes the level consume more processing power, but allows it to help with networking and messages
     public static boolean MODE_NET = false;
 
     public static Logger toLog = new Logger("LEVEL","LEVEL");
@@ -101,8 +102,6 @@ public class Level
     }
 
     public ArrayList<Entity> getEntities() { return entities; }
-    
-    public ArrayList<Projectile> getProjectiles() { return projectiles; }
 
     public ArrayList<Team> getTeams() { return teams; }
 
@@ -127,7 +126,7 @@ public class Level
     public void receiveUpdate(ServerMessage message) {
         User from = message.getFrom();
         Message m = message.getMessage();
-        
+
         if(m.getType() == GameNetMessage.TILE_PLACE.getId()) {
             Tile t = new Tile(m.getId());
 
@@ -186,36 +185,6 @@ public class Level
             }
 
         }
-        
-        for(Projectile p : projectiles) {
-
-            for(Message m : p.getUpdates()) {
-                toRet.add(m);
-            }
-
-        }
-
-        /*
-        for(Entity e : additions) {
-        toRet.add(e.getSpawnMessage());
-        additions.remove(e);
-        }
-
-        for(Entity e : removals) {
-        toRet.add(e.getDespawnMessage());
-        removals.remove(e);
-        }
-
-        for(Tile t : tileAdditions) {
-        toRet.add(t.getPlaceMessage());
-        tileAdditions.remove(t);
-        }
-
-        for(Tile t : tileRemovals) {
-        toRet.add(t.getDestroyMessage());
-        tileRemovals.remove(t);
-        }
-         */
 
         return toRet;
     }
@@ -256,7 +225,7 @@ public class Level
         tiles.remove(t);
         if(MODE_NET) tileRemovals.add(t);
     }
-    
+
     public void handleAdditions() {
         while(pendingSpawns.size()>0) {
             Entity toAdd = pendingSpawns.remove(0);
@@ -267,7 +236,7 @@ public class Level
             if(MODE_NET) additions.add(toAdd);
         }
     }
-    
+
     public void handleRemovals() {
         while(pendingDespawns.size()>0) {
             Entity toRem = pendingDespawns.remove(0);
@@ -288,6 +257,7 @@ public class Level
 
         long start2 = System.nanoTime();
 
+        /*
         while(pendingSpawns.size()>0) {
             Entity toAdd = pendingSpawns.remove(0);
 
@@ -296,6 +266,8 @@ public class Level
 
             if(MODE_NET) additions.add(toAdd);
         }
+        */
+        handleAdditions();
 
         start = System.nanoTime();
         for(int i=0; i<teams.size(); i++) {
@@ -335,6 +307,7 @@ public class Level
             if(p.y > yBound) remove(p);
         }
 
+        /*
         while(pendingDespawns.size()>0) {
             Entity toRem = pendingDespawns.remove(0);
 
@@ -343,6 +316,8 @@ public class Level
 
             if(MODE_NET) removals.add(toRem);
         }
+        */
+        handleRemovals();
 
         long end2 = System.nanoTime();
         levelTickingTime = (int) (end2-start2);

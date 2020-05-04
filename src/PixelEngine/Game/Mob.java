@@ -42,7 +42,7 @@ public class Mob extends Entity
     public Mob() {
         super();
     }
-    
+
     public void restore() {
         addHp(maxHp);
         addHunger(maxHunger);
@@ -114,7 +114,7 @@ public class Mob extends Entity
 
         double x2 = d * Math.cos( Math.toRadians(r) );
         double y2 = d * Math.sin( Math.toRadians(r) );
-        
+
         toRet[0] = x2;
         toRet[1] = y2;
 
@@ -126,7 +126,7 @@ public class Mob extends Entity
             hp += regen * maxHp;
             hpUpdated = true;
         }
-        else if(hp > maxHp) hp = maxHp;
+        if(hp > maxHp) hp = maxHp;
     }
 
     public void revive() {

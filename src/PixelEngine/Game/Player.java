@@ -7,8 +7,9 @@ import PixelEngine.Network.*;
 
 public class Player extends Mob
 {
+    //For multiplayer games
     public User user;
-    
+
     public int kills = 0;
 
     public double dx = 0;

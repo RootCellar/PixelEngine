@@ -9,7 +9,7 @@ import PixelEngine.Logging.*;
 public class SocketHandler implements Runnable
 {
     private static Logger log = new Logger("SocketHandler", "Log");
-
+    
     private static int waitTime = 1;
 
     private boolean going = false;
@@ -101,27 +101,19 @@ public class SocketHandler implements Runnable
 
     public void sendBytes(byte[] b) {
         if(!connected) return;
-        /*
-        new Thread() {
-            public void run() {
-                */
-                try {
-                    out.writeShort(b.length);
-                    out.write(b, 0, b.length);
+        try{
+            out.writeShort(b.length);
+            out.write(b, 0, b.length);
 
-                    BYTES_SENT += b.length;
+            BYTES_SENT += b.length;
 
-                    out.flush();
-                }catch(IOException e) {
-
-                }catch(Exception e) {
-                    out("COULD NOT SEND BYTES");
-                    out( e.getMessage() );
-                }
-                /*
-            }
-        }.start();
-        */
+            out.flush();
+        }catch(IOException e) {
+            
+        }catch(Exception e) {
+            out("COULD NOT SEND BYTES");
+            out( e.getMessage() );
+        }
     }
 
     public void sendString(String s, short i, short t) {
@@ -175,7 +167,7 @@ public class SocketHandler implements Runnable
 
     public void read() {
         try{
-
+            
             //out("Looking for bytes");
 
             short size = in.readShort();
@@ -183,7 +175,7 @@ public class SocketHandler implements Runnable
             byte[] bytes = new byte[size];
 
             int count = in.read(bytes, 0, size);
-
+            
             //out("Read some bytes");
 
             if(size != count) {
@@ -210,9 +202,9 @@ public class SocketHandler implements Runnable
         if(user2 != null) {
             user2.inputText("[SOCKET HANDLER] " + s);
         }
-
+        
         log.log("[SOCKET HANDLER] " + s);
-
+        
         //System.out.println("[SOCKET HANDLER] " + s);
     }
 
