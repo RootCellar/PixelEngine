@@ -60,7 +60,7 @@ public class Entity
     }
 
     public void remove() {
-        if(level!=null) level.remove(this);
+        level.remove(this);
     }
 
     public void addX(double a) {

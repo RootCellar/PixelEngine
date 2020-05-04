@@ -56,7 +56,7 @@ public class Room
     public void addUser(User u) {
         users.add(u);
         u.setRoom(this);
-        u.send("Welcome to room " + name + "!");
+        u.send("Welcome to " + name + "!");
     }
 
     public void tick() {
@@ -65,28 +65,18 @@ public class Room
     }
 
     public void removeDisconnected() {
-        /*
         for(User u : users) {
             if(!u.isConnected()) removeUser(u);
-        }
-        */
-       
-        for(int i=0; i<users.size(); i++) {
-            if(!users.get(i).isConnected()) {
-                removeUser(users.get(i));
-            }
         }
     }
 
     public void receive(User u, Message m) {
         ServerMessage message = new ServerMessage(m, u);
-        
-        server.messages.offer(message);
         messages.offer(message);
     }
 
     public void parseMessage(ServerMessage message) {
-        
+
     }
 
     public void parseAllMessages() {

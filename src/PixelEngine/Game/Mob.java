@@ -38,83 +38,139 @@ public class Mob extends Entity
     public boolean isAlive=true;
 
     public Inventory inventory = new Inventory();
-
+    
     public Mob() {
         super();
     }
     
-    public void restore() {
-        addHp(maxHp);
-        addHunger(maxHunger);
-        addThirst(maxThirst);
-        addStamina(maxStamina);
-    }
-
     public void forceUpdate() {
         super.forceUpdate();
-
+        
         hpUpdated = true;
         staminaUpdated = true;
         hungerUpdated = true;
         thirstUpdated = true;
     }
-
+    
     public Message getSpawnMessage() {
         return new Message( (short) MessageTypes.getId("MOB_SPAWN"), id);
     }
-
+    
     public Message getDespawnMessage() {
         return new Message( (short) MessageTypes.getId("MOB_REMOVE"), id);
     }
-
+    
     public ArrayList<Message> getUpdates() {
         ArrayList<Message> updates = new ArrayList<Message>();
-
+        
         for( Message m : super.getUpdates() ) {
             updates.add(m);
         }
-
+        
         for(Message m : inventory.getUpdates() ) {
             updates.add(m);
         }
-
+        
         if(hpUpdated) {
             Message m = new Message( (short) GameNetMessage.MOB_HP.getId(), id );
             m.putShort( (short) hp );
             updates.add(m);
             hpUpdated = false;
         }
-
+        
         if(staminaUpdated) {
             Message m = new Message( (short) GameNetMessage.MOB_STAMINA.getId(), id );
             m.putShort( (short) stamina );
             updates.add(m);
             staminaUpdated = false;
         }
-
+        
         if(hungerUpdated) {
             Message m = new Message( (short) GameNetMessage.MOB_HUNGER.getId(), id );
             m.putShort( (short) hunger );
             updates.add(m);
             hungerUpdated = false;
         }
-
+        
         if(thirstUpdated) {
             Message m = new Message( (short) GameNetMessage.MOB_THIRST.getId(), id );
             m.putShort( (short) thirst );
             updates.add(m);
             thirstUpdated = false;
         }
-
+        
         return updates;
     }
 
     public static double[] findPosByAngle(double x1, double y1, double r, double d) {
         double[] toRet = new double[2];
 
-        double x2 = d * Math.cos( Math.toRadians(r) );
-        double y2 = d * Math.sin( Math.toRadians(r) );
-        
+        while(r >= 360) {
+            r-=360;
+        }
+
+        while(r < 0) {
+            r+=360;
+        }
+
+        if(r % 90 == 0) {
+
+            if(r==90) {
+                toRet[0] = d;
+                toRet[1] = 0;
+                return toRet;
+            }
+
+            if(r==180) {
+                toRet[0] = 0;
+                toRet[1] = d;
+                return toRet;
+            }
+
+            if(r==270) {
+                toRet[0] = d * -1;
+                toRet[1] = 0;
+                return toRet;
+            }
+
+            if(r==360) {
+                toRet[0] = 0;
+                toRet[1] = d * -1;
+                return toRet;
+            }
+
+        }
+
+        int c = 0;
+        while(r >= 90 ) {
+            r-=90;
+            c++;
+        }
+
+        if(c==1 || c==3) r= 90 - r;
+
+        double x2 = d * Math.sin( Math.toRadians(r) );
+        double y2 = d * Math.cos( Math.toRadians(r) );
+
+        if(c==0) {
+            y2*=-1;
+        }
+
+        if(c==1) {
+            //y2*=-1;
+
+        }
+
+        if(c==2) {
+            //y2*=-1;
+            x2*=-1;
+        }
+
+        if(c==3) {
+            x2*=-1;
+            y2*=-1;
+        }
+
         toRet[0] = x2;
         toRet[1] = y2;
 
@@ -122,17 +178,17 @@ public class Mob extends Entity
     }
 
     public void regen() {
-        if(damageTime < 1 && hp < maxHp) {
+        if(hp < maxHp) {
             hp += regen * maxHp;
             hpUpdated = true;
         }
-        else if(hp > maxHp) hp = maxHp;
+        else hp = maxHp;
     }
 
     public void revive() {
         isAlive=true;
         hp=maxHp;
-        if(level!=null) level.add(this);
+        level.add(this);
     }
 
     public void killed(Mob m) {
@@ -172,7 +228,7 @@ public class Mob extends Entity
 
     public void damage(double a) {
         hp-=a;
-        if(hp < 0 ) {
+        if(hp < 0 ) { 
             hp = 0;
             die();
         }
@@ -218,8 +274,9 @@ public class Mob extends Entity
         checkStats();
 
         doLifeBar();
-
-        if(damageTime > 0) damageTime--;
+        
+        damageTime--;
+        if(damageTime < 0) damageTime = 0;
     }
 
     public void doLifeBar() {

@@ -29,7 +29,6 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
     public Registry registry = new Registry();
     public ChatBox chatBox = new ChatBox();
     public MouseHelper mouseHelper = new MouseHelper(canvas);
-    public Level level = new Level();
     
     //Use ConcurrentLinkedQueue to avoid exceptions due to multithreading
     public ConcurrentLinkedQueue<Message> messages = new ConcurrentLinkedQueue<Message>();
@@ -122,7 +121,6 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
 
         if( Command.is("@help", s) ) {
             out("@ - Commands for Client");
-            out("@help - list commands");
             out("@connect <address> <port> - connect to a server");
             out("@list - list registry");
             out("@quit - Exit, may not be safe");
@@ -311,16 +309,11 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
             e.printStackTrace();
             out("Can't save registry");
         }
-        
-        out("Enter \"@help\" for a list of commands");
 
     }
 
     public void tick() {
         parseMessages();
-        
-        level.handleAdditions();
-        level.handleRemovals();
     }
 
     public void render() {
@@ -332,7 +325,7 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
     }
 
     public void draw(Graphics g) {
-        
+
     }
 
     public void out(String s) {

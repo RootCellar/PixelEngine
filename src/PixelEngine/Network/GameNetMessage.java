@@ -2,58 +2,32 @@ package PixelEngine.Network;
 
 public enum GameNetMessage
 {
-    //Net Handling
     PING_CHECK,
-    
-    //Strings
     NAME_SET,
     CHAT,
-    
-    //Player Handling
     SELF_SET,
-    
-    //Entities
     ENTITY_SPAWN,
     ENTITY_REMOVE,
-    
-    //Mobs
     MOB_SPAWN,
     MOB_REMOVE,
     MOB_RESIZE,
     MOB_POS,
-    MOB_ROT,
-    
-    //Mob Stats
     MOB_HP,
     MOB_STAMINA,
     MOB_HUNGER,
     MOB_THIRST,
     MOB_INV_ADD,
     MOB_INV_DEL,
-    
-    //Items
     ITEM_SPAWN,
     ITEM_REMOVE,
-    
-    //Tiles
     TILE_PLACE,
     TILE_REMOVE,
-    
-    //Projectiles
-    PROJ_SPAWN,
-    PROJ_REMOVE,
-    PROJ_MOVE,
-    
-    //Input Keys
     KEY_W,
     KEY_A,
     KEY_S,
     KEY_D,
     KEY_SPACE,
-    
-    //Mouse Input
     MOUSE_POS,
-    MOUSE_ANGLE,
     ;
     
     String name;

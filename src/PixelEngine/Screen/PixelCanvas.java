@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import java.awt.event.*;
 import javax.imageio.ImageIO;
 import java.io.File;
-import java.util.ArrayList;
 
 import PixelEngine.Util.*;
 
@@ -38,9 +37,9 @@ public class PixelCanvas extends Canvas implements Runnable
     public int yd = HEIGHT/2;
 
     public boolean offset = true;
-
+    
     public boolean AUTO_CLEAR = true;
-
+    
     public int SET_TIMES = 0;
 
     public void setCenter( double one, double two) {
@@ -102,7 +101,7 @@ public class PixelCanvas extends Canvas implements Runnable
             frames = 0;
             timeSinceLast = System.nanoTime();
         }
-    }
+    }   
 
     public void drawFps(Graphics g) {
         g.setColor(Color.RED);
@@ -157,7 +156,7 @@ public class PixelCanvas extends Canvas implements Runnable
             }
         }
         */
-
+        
         for(int i=0; i<pixels.length; i++) pixels[i] = 0;
     }
 
@@ -180,12 +179,12 @@ public class PixelCanvas extends Canvas implements Runnable
         try{
             if(x<0 || y<0) return;
             if(x>=WIDTH || y>=HEIGHT) return;
-
+            
             //int i = x + y * WIDTH;
             //pixels[i]=getColor(r,g,b);
-
+            
             pixels[x + y * WIDTH]=getColor(r,g,b);
-
+            
             SET_TIMES ++;
         }catch(Exception e) {
 
@@ -354,55 +353,4 @@ public class PixelCanvas extends Canvas implements Runnable
 
         drawLine(x1, y1, x2, y2, r, g, b, (int) DIST.getDistance( x1, y1, x2, y2 ) );
     }
-
-    //Get the points for the edges of a polygon
-    //Can be used to draw polygons with rotations
-    public ArrayList<Point> getPolyPoints(double xC, double yC, double size, int sides, double rot) {
-        if(sides < 3) return new ArrayList<Point>();
-
-        ArrayList<Point> toRet = new ArrayList<Point>();
-
-        double degOffs = 360.0 / ( (double) sides);
-        //double topOffs = degOffs / 2;
-
-        for(int i=0; i<sides; i++) {
-            double angleDeg = i * degOffs;
-            //angleDeg -= topOffs;
-            angleDeg += rot;
-
-            double pX = xC + ( Math.cos( Math.toRadians(angleDeg) ) * size );
-            double pY = yC + ( Math.sin( Math.toRadians(angleDeg) ) * size );
-
-            Point p = new Point();
-
-            p.setLocation(pX, pY);
-
-            toRet.add(p);
-        }
-
-        return toRet;
-
-    }
-
-    //Use the method above to get the positions for each edge,
-    //then connect the dots!
-    public void drawPolygon(double xC, double yC, double size, int sides, double rot, int r, int g, int b) {
-
-        ArrayList<Point> edges = getPolyPoints(xC, yC, size, sides, rot);
-
-        if(edges.size() < 3) return;
-        
-        //for(Point p : edges) drawCircle(p.getX(), p.getY(), 255, 255, 255, 50);
-
-        for(int i=0; i<edges.size()-1; i++) {
-            Point here = edges.get(i);
-            Point to = edges.get(i+1);
-
-            drawLine(here.getX(), here.getY(), to.getX(), to.getY(), r, g, b);
-        }
-
-        drawLine(edges.get(0).getX(), edges.get(0).getY(), edges.get(edges.size()-1).getX(), edges.get(edges.size()-1).getY(), r, g, b);
-
-    }
-
 }

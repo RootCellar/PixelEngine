@@ -118,6 +118,6 @@ public class InputListener implements KeyListener
     }
 
     public void keyTyped(KeyEvent ke) {
-        
+
     }
 }
