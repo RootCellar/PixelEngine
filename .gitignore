@@ -1,0 +1,17 @@
+#Files to ignore
+
+#Classes, logs
+*.class
+*.log
+
+#Archives, compressed files
+*.jar
+*.zip
+*.rar
+*.tar.gz
+
+#VM crash logs
+hs_err_pid*
+
+#Other
+*.temp
