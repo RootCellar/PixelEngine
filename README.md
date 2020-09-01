@@ -13,6 +13,12 @@ The src folder contains an example of a basic game.
 
 Examples of how the engine can be used will be placed in this repository also.
 
+## Development
+
+Note: Development of this engine is nicer on Linux!
+
+Reach out to RootCellar9877@GMail.com if you wish to assist with development.
+
 ## Examples
 
 ### Invaders - 2/1/2019
