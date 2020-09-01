@@ -4,14 +4,14 @@
 #find todo statements
 cd ..
 cd src
-grep -r -i -n "todo" > todo.temp
+grep -r -i -n "todo" > ../info/todo.temp
 
 #find single-line comments
-grep -r -i -n "//" > comment.temp
+grep -r -i -n "//" > ../info/comment.temp
 
 #count lines
-(find -name "*.java" -exec wc -l {} +) | sort -n -r > lines.temp
+(find -name "*.java" -exec wc -l {} +) | sort -n -r > ../info/lines.temp
 
 #find file sizes
 cd ..
-du -ch > size.temp
+du -ch > info/size.temp

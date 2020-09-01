@@ -8,7 +8,7 @@ cd src
 
 #build list of files
 rm find
-find -name "*.java" > find.temp
+find -name "*.java" > ../info/find.temp
 
 #find -name "*.java" -exec javac {} +
 
