@@ -13,7 +13,6 @@ find -name "*.java" > find
 #find -name "*.java" -exec javac {} +
 
 #This is a slower method of building, but I (RootCellar) prefer it.
-rm build.temp
 for i in $(find -name "*.java"); do
 	javac -nowarn -d ../build/ $i
 	echo $i
