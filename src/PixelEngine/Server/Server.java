@@ -1,3 +1,9 @@
+/*
+ * A basic server object
+ * Extend this to make a server for a multiplayer game!
+ *
+*/
+
 package PixelEngine.Server;
 
 import PixelEngine.Game.*;
