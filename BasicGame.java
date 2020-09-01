@@ -1,3 +1,9 @@
+/*
+ * This class contains a basic game that just puts the player in an empty level and allows them to move
+ * Feel free to copy this for your own game!
+ * Note: It is also a good idea to read this to understand the basic things that are required to make a working game
+*/
+
 import PixelEngine.Screen.*;
 import PixelEngine.Game.*;
 import PixelEngine.Input.*;
