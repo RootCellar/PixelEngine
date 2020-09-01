@@ -15,3 +15,6 @@ grep -r -i -n "//" > ../info/comment.temp
 #find file sizes
 cd ..
 du -ch > info/size.temp
+
+#find files in src/
+ls -lsthR src > info/src.temp
