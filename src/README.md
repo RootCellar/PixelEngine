@@ -2,6 +2,8 @@
 
 Beyond this point lies the engine's source code. Enter if you dare!
 
+Any .java files in this folder are basic samples for games. They can be copied and used as you like.
+
 If you want to help with development, reach out to RootCellar9877@GMail.com (the owner of this repo).
 
 If you're just curious, go on ahead. The Game/PixelEngine class would be a great place to start. That's where the magic begins for singleplayer games.
