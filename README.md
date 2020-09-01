@@ -9,6 +9,8 @@ Development Started: 10/3/18
 Put the PixelEngine folder in the base directory of your project.
 Compile the engine source files, and that should be it.
 
+The src folder contains an example of a basic game.
+
 Examples of how the engine can be used will be placed in this repository also.
 
 ## Examples
