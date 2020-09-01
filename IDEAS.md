@@ -14,3 +14,6 @@ This file just contains ideas for the PixelEngine. These may or may not be imple
 
 *Make some classes that are capable of monitoring the game engine/game. This class could be used to set a current status, keep track of some durations of how long things take, and even allow for jobs to be made.
 
+## GUI
+
+*Add some classes that contain GUIs that can help monitor the engine/game as it runs. These could be extended to possibly pause the engine, and even add objects while it is running for testing.
