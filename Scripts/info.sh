@@ -18,5 +18,12 @@ grep -r -i -n "//" > ../info/comment.temp
 cd ..
 du -ch > info/size.temp
 
+#find .md files
+(find -name "*.md") > info/md.temp
+
 #find files in src/
 ls -lsthR src > info/src.temp
+
+
+
+
