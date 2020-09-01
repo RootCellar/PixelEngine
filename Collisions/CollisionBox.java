@@ -1,3 +1,7 @@
+/*
+ * This was just an attempt to support collisions. This can be ignored.
+*/
+
 import java.awt.*;
 import java.util.ArrayList;
 
