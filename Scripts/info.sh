@@ -1,6 +1,8 @@
 #!/bin/bash
 #Used to find todo statements and such and collect them in a file
 
+git status
+
 #find todo statements
 cd ..
 cd src
