@@ -1,3 +1,5 @@
+//Client class
+
 package PixelEngine.Client;
 
 import java.awt.event.*;
@@ -16,11 +18,11 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
 {
     //Constants, if needed
     static char[] legalChars = " 1234567890abcdefghijklmnopqrstuvwxyz!@#$%^&*(){}[]-=_+:;<>,.?/'\"".toCharArray();
-    
+
     //Logging
     public Logger logger = new Logger("Client","Client");
     public Logger debugLog = new Logger("Client","Debug");
-    
+
     //Important Objects
     public MessageTypes messageTypes = new MessageTypes(this);
     public SocketHandler sHandler;
@@ -30,10 +32,10 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
     public ChatBox chatBox = new ChatBox();
     public MouseHelper mouseHelper = new MouseHelper(canvas);
     public Level level = new Level();
-    
+
     //Use ConcurrentLinkedQueue to avoid exceptions due to multithreading
     public ConcurrentLinkedQueue<Message> messages = new ConcurrentLinkedQueue<Message>();
-    
+
     //Variables
     public boolean going = false;
     public boolean typing = false;
@@ -41,19 +43,19 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
     public boolean chatOpen = true;
     public String message = "";
     public int waitTime = 1;
-    
+
     public int ticks = 0;
     public int ticks2 = 0;
     public int frames = 0;
     public int frames2 = 0;
-    
+
     public Client() {
         out("Client Created");
-        
+
         canvas.user = this;
         Inventory.netMode = true;
         Level.MODE_NET = true;
-        
+
         MessageTypes.add(GameNetMessage.values());
     }
 
@@ -62,7 +64,7 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
             chatOpen = !chatOpen;
             typing = false;
         }
-        
+
         if(ke.getKeyCode() == KeyEvent.VK_ESCAPE) {
             typing = false;
             message = "";
@@ -94,18 +96,18 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
                 for( char c : legalChars) {
 
                     if( (c+"").equalsIgnoreCase( (ke.getKeyChar()+"") ) ) {
-                        
+
                         message += ke.getKeyChar();
                         break;
-                        
+
                     }
 
                 }
 
             }
-            
+
         }
-        
+
     }
 
     public void keyReleased(KeyEvent ke) {
@@ -171,11 +173,11 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
         Message m = new Message(b);
         messages.offer(m);
     }
-    
+
     public void parseMessage(Message m) {
-        
+
     }
-    
+
     public void parseMessages() {
         while(messages.size() > 0) parseMessage( messages.poll() );
     }
@@ -225,7 +227,7 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
             try{
                 TPS = registry.get("TPS").toInt();
                 FPS = registry.get("FPS").toInt();
-                
+
                 nsPerTick = 1000000000.0 / (double) TPS;
                 nsPerFrame = 1000000000.0 / (double) FPS;
 
@@ -242,9 +244,9 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
                     long TICK_BEGIN = System.nanoTime();
                     tick();
                     long TICK_END = System.nanoTime();
-                    
+
                     registry.add( new Property("TIME_TICK", (TICK_END - TICK_BEGIN) + "" ) );
-                    
+
                     ticks2++;
                     unprocessed-=1;
                     ticked = true;
@@ -254,13 +256,13 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
 
                 if( ( System.nanoTime() - lastFrame ) >= nsPerFrame ) {
                     lastFrame = System.nanoTime();
-                    
+
                     long RENDER_START = System.nanoTime();
                     render();
                     long RENDER_END = System.nanoTime();
-                    
+
                     registry.add( new Property("TIME_RENDER", (RENDER_END - RENDER_START) + "" ) );
-                    
+
                     frames2++;
                     //lastFrame = System.nanoTime();
                 }
@@ -304,21 +306,21 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
         registry.add( new Property( "TPS", "100" ) );
         registry.add( new Property( "FPS", "100" ) );
         registry.add( new Property( "USER_NAME", "GUEST" ) );
-        
+
         try{
             registry.save("Client");
         }catch(Exception e) {
             e.printStackTrace();
             out("Can't save registry");
         }
-        
+
         out("Enter \"@help\" for a list of commands");
 
     }
 
     public void tick() {
         parseMessages();
-        
+
         level.handleAdditions();
         level.handleRemovals();
     }
@@ -332,7 +334,7 @@ public class Client implements Runnable, KeyUser, PixelCanvasUser, InputUser, So
     }
 
     public void draw(Graphics g) {
-        
+
     }
 
     public void out(String s) {
