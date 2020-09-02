@@ -1,3 +1,10 @@
+/*
+ *
+ * The class that handles input.
+ * Supports most of the keys that you'd want to use.
+ *
+*/
+
 package PixelEngine.Input;
 
 import java.util.ArrayList;
@@ -30,7 +37,7 @@ public class InputListener implements KeyListener
             }
             return false;
         }
-        
+
         public boolean wasUp() {
             if(wasUp) {
                 wasUp = false;
@@ -39,11 +46,11 @@ public class InputListener implements KeyListener
             return false;
         }
     }
-    
+
     public KeyUser user;
 
     public ArrayList<Key> keys = new ArrayList<Key>();
-    
+
     public Key aup = new Key();
     public Key adown = new Key();
     public Key aleft = new Key();
@@ -98,7 +105,7 @@ public class InputListener implements KeyListener
         if(ke.getKeyCode() == KeyEvent.VK_B) b.toggle(pressed);
         if(ke.getKeyCode() == KeyEvent.VK_N) n.toggle(pressed);
         if(ke.getKeyCode() == KeyEvent.VK_M) m.toggle(pressed);
-        
+
         if(ke.getKeyCode() == KeyEvent.VK_RIGHT) aright.toggle(pressed);
         if(ke.getKeyCode() == KeyEvent.VK_LEFT) aleft.toggle(pressed);
         if(ke.getKeyCode() == KeyEvent.VK_DOWN) adown.toggle(pressed);
@@ -107,17 +114,17 @@ public class InputListener implements KeyListener
 
     public void keyPressed(KeyEvent ke) {
         toggle(ke,true);
-        
+
         if(user != null) user.keyPressed(ke);
     }
 
     public void keyReleased(KeyEvent ke) {
         toggle(ke,false);
-        
+
         if(user != null) user.keyReleased(ke);
     }
 
     public void keyTyped(KeyEvent ke) {
-        
+
     }
 }

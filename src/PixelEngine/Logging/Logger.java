@@ -1,3 +1,11 @@
+/*
+ *
+ * by RootCellar (RootCellar9877@GMail.com)
+ * Just a helpful logger class. If you find this class handy, go ahead
+ * and take it to use in other projects if you want.
+ *
+*/
+
 package PixelEngine.Logging;
 
 import java.io.*;
@@ -13,33 +21,33 @@ public class Logger
     public Logger() {
         open();
     }
-    
+
     public Logger(String f, String n) {
         fileName = n;
         fileFolder = f;
         namedFile = true;
         open();
     }
-    
+
     public void reopen() {
         close();
         open();
     }
-    
+
     public void open() {
         new File("Logs").mkdir();
         if(namedFile && !fileFolder.equals("") ) new File("Logs/" + fileFolder).mkdir();
-        
+
         if(!namedFile) f = new File( "Logs/" + getNameByDate( new Date() ) + ".txt" );
         else if( fileFolder.equals("") ) f = new File("Logs/" + fileName + ".txt");
         else f = new File("Logs/" + fileFolder + "/" + fileName + ".txt");
-        
+
         try{
             toLog = new FileWriter(f,true);
         }catch(Exception e) {
             canWrite=false;
         }
-        
+
         log("Opened Log!");
     }
 
@@ -53,7 +61,7 @@ public class Logger
 
     public void log(String s) {
         if(!canWrite) return;
-        
+
         try{
             toLog.write(getTimeAsString( new Date() )+" "+s);
             toLog.write(System.getProperty("line.separator"));
@@ -75,22 +83,22 @@ public class Logger
             h-=12;
             ind= "PM";
         }
-        
+
         int m2 = date.getMinutes();
         String m = m2+"";
         if(m2<10) m="0"+m2;
-        
+
         int s2 = date.getSeconds();
         String s = s2+"";
         if(s2<10) s="0"+s2;
-        
+
         return (date.getMonth()+1)+"/"+date.getDate()+"/"+(date.getYear()+1900)+" "+h+":"+m+":"+s+" "+ind;
     }
-    
+
     public static String getTimeAsString() {
         return getTimeAsString( new Date() );
-    }   
-    
+    }
+
     public static String getDayByInt(int n) {
         String toReturn = "";
 
@@ -104,7 +112,7 @@ public class Logger
 
         return toReturn;
     }
-    
+
     //Returns a string representing a given date
     public static String getTimeAndDate(Date date) {
         //Date date = new Date();
@@ -128,7 +136,7 @@ public class Logger
 
         return ret;
     }
-    
+
     public static String getTimeAndDate() {
         return getTimeAndDate( new Date() );
     }
