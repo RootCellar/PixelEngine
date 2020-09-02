@@ -1,3 +1,13 @@
+/*
+ *
+ * A basic Room Object
+ * Extend this to make your own rooms!
+ * Essentially, the server is broken up into rooms to help organize what players are doing on the server/where they are
+ * For instance, multiple rooms could be used if you intend on having multiple worlds/dimensions
+ * You can also use multiple rooms to have say a lobby and a battle room.
+ *
+*/
+
 package PixelEngine.Server;
 
 import java.util.*;
@@ -24,11 +34,11 @@ public class Room
 
     public void sendLevelUpdates() {
         for(Message m : level.getUpdates()) {
-            
+
             for(User u : users) {
                 u.send(m);
             }
-            
+
         }
     }
 
@@ -70,7 +80,7 @@ public class Room
             if(!u.isConnected()) removeUser(u);
         }
         */
-       
+
         for(int i=0; i<users.size(); i++) {
             if(!users.get(i).isConnected()) {
                 removeUser(users.get(i));
@@ -80,13 +90,13 @@ public class Room
 
     public void receive(User u, Message m) {
         ServerMessage message = new ServerMessage(m, u);
-        
+
         server.messages.offer(message);
         messages.offer(message);
     }
 
     public void parseMessage(ServerMessage message) {
-        
+
     }
 
     public void parseAllMessages() {
