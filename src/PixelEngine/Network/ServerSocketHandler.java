@@ -1,3 +1,11 @@
+/*
+ *
+ * This is used to set up the server socket and accept connections.
+ * Once a connection is accepted, the socket is given to the server
+ * to use however it will be used.
+ *
+*/
+
 package PixelEngine.Network;
 
 import java.net.*;

@@ -1,3 +1,10 @@
+/*
+ *
+ * This is where all of the rendering happens.
+ * I (RootCellar) am not very good at rendering, but I definitely am trying my best!
+ *
+*/
+
 package PixelEngine.Screen;
 
 import java.awt.*;
@@ -391,7 +398,7 @@ public class PixelCanvas extends Canvas implements Runnable
         ArrayList<Point> edges = getPolyPoints(xC, yC, size, sides, rot);
 
         if(edges.size() < 3) return;
-        
+
         //for(Point p : edges) drawCircle(p.getX(), p.getY(), 255, 255, 255, 50);
 
         for(int i=0; i<edges.size()-1; i++) {
