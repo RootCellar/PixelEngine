@@ -1,3 +1,10 @@
+/*
+ *
+ * This class is used by the server and the client to send/receive messages.
+ * It might not be the best code out there for such a thing, but it does work.
+ *
+*/
+
 package PixelEngine.Network;
 
 import java.net.*;
@@ -9,7 +16,7 @@ import PixelEngine.Logging.*;
 public class SocketHandler implements Runnable
 {
     private static Logger log = new Logger("SocketHandler", "Log");
-    
+
     private static int waitTime = 1;
 
     private boolean going = false;
@@ -109,7 +116,7 @@ public class SocketHandler implements Runnable
 
             out.flush();
         }catch(IOException e) {
-            
+
         }catch(Exception e) {
             out("COULD NOT SEND BYTES");
             out( e.getMessage() );
@@ -167,7 +174,7 @@ public class SocketHandler implements Runnable
 
     public void read() {
         try{
-            
+
             //out("Looking for bytes");
 
             short size = in.readShort();
@@ -175,7 +182,7 @@ public class SocketHandler implements Runnable
             byte[] bytes = new byte[size];
 
             int count = in.read(bytes, 0, size);
-            
+
             //out("Read some bytes");
 
             if(size != count) {
@@ -202,9 +209,9 @@ public class SocketHandler implements Runnable
         if(user2 != null) {
             user2.inputText("[SOCKET HANDLER] " + s);
         }
-        
+
         log.log("[SOCKET HANDLER] " + s);
-        
+
         //System.out.println("[SOCKET HANDLER] " + s);
     }
 
