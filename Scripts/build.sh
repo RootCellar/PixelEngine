@@ -1,4 +1,5 @@
 #!/bin/bash
+#builds slower, but has more potential to do more while building/with the built source files
 
 #move to base
 cd ..
