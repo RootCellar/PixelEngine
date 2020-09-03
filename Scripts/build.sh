@@ -11,8 +11,9 @@ cd src
 rm find
 find -name "*.java" > ../info/find.temp
 
-#This is a slower method of building, but I (RootCellar) prefer it.
+#This is a slower method of building
 for i in $(find -name "*.java"); do
-	javac -nowarn -d ../build/ $i
-	echo $i
+	echo Building $i...
+	javac -d ../build/ $i
+	echo Built $i
 done
