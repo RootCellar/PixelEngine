@@ -16,7 +16,7 @@ grep -r -i -n "//" > ../info/comment.temp
 
 #find file sizes
 cd ..
-du -ch > info/size.temp
+(du -ch) | sort -h -r > info/size.temp
 
 #find .md files
 (find -name "*.md") > info/md.temp
