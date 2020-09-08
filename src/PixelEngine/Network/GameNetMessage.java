@@ -5,6 +5,11 @@
  * These are just some general message types, if you don't want to use them then
  * you definitely don't have to.
  *
+ * The advantage to using an enum and a registry of sorts to keep track of message types
+ * is that the numbers (IDs for message types) do not have to be hard coded, meaning that things
+ * can be changed either here or in the user's code and they won't have to manually update ID numbers
+ * in their code. The engine keeps track of the numbers, so the user only has to know the "name".
+ *
  * Note though that if you define your own message
  * type with the same name as one of these, it will not be placed into the list
  * because a type already exists with that name (From here).
