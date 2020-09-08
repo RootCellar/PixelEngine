@@ -21,6 +21,11 @@ Reach out to RootCellar9877@GMail.com if you wish to assist with development.
 
 ## Examples
 
+These example games are small examples, in that they can be made in less than a day.
+Games like these are really what the engine was originally built for; arcade-like games that can be made very rapidly. Which is why the engine really isn't that large.
+In the future, the plan is to expand into more medium sized games that could support things like multiplayer and even basic modding.
+While the engine does support multiplayer, it is much more difficult than making a singleplayer game. Which is not the intent.
+
 ### Invaders - 2/1/2019
 
 A small game based on the idea of Space Invaders. Contains stages and enemies that can level up,
