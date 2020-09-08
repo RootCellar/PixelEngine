@@ -53,6 +53,8 @@ public class ServerSocketHandler implements Runnable
         }
     }
 
+    //This method opens the server socket. It goes through and searches for an available port,
+    //and opens it there.
     public void setup() throws Exception {
         if(!finished) {
             return;
