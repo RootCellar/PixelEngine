@@ -1,3 +1,12 @@
+/*
+ *
+ * This class can be used to assist with random number generation.
+ * It even supports automatic reseeding, to change the seed each time something is generated
+ * to spice up the random values that are obtained. Caution though, that functionality
+ * is slower than just grabbing random numbers.
+ *
+*/
+
 package PixelEngine.Util;
 
 import java.util.Random;
