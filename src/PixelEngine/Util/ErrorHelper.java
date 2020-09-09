@@ -5,7 +5,7 @@
 */
 
 
-pubic class ErrorHelper
+public class ErrorHelper
 {
 	public ErrorHelper() {
 		
