@@ -10,4 +10,13 @@ If you're just curious, go on ahead. The Game/PixelEngine class would be a great
 
 It is also recommended to read some of this to at least get an idea of how things work (if there doesn't exist a proper documentation to explain that to you)
 
-
+Folders and what they contain:
+-Util: helpers and such, quality of life
+-Client: client specific classes
+-Server: server specific classes
+-Network: networking classes for multiplayer games and such (online leaderboards!?!?!?)
+-Game: classes essential to the actual game, including singleplayer pixelengine
+-Screen: graphics-related classes
+-Input: input related classes, involving keyboard and mouse
+-Logging: classes to help with logging data
+-GUI: classes to help with building a GUI or using a pre-built one.
