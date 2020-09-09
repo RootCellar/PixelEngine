@@ -4,6 +4,8 @@
  * This includes converting the error to a string, and helping to provide info associated with the error as well
 */
 
+package PixelEngine.Util;
+
 
 public class ErrorHelper
 {
