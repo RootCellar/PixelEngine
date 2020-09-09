@@ -5,6 +5,9 @@ import java.awt.*;
 
 public class ChatBox
 {
+    //Defining basically an average character width to make sure that
+    //no messages are too wide for the screen
+    //TODO: Define widths per character to make more precise
     public static final int CHAR_WIDTH = 8;
 
     //Objects
