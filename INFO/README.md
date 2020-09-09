@@ -4,8 +4,8 @@ This folder contains some information including ideas.
 
 In the future, this may include:
 
--Tutorial(s)
+- Tutorial(s)
 
--Code snippets/examples
+- Code snippets/examples
 
--Any other useful information to help with development
+- Any other useful information to help with development
