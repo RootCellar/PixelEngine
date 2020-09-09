@@ -34,6 +34,8 @@ public class Projectile extends Entity
         return new Message( (short) MessageTypes.getId("PROJ_REMOVE"), id);
     }
 
+    //TODO: add support for missiles (find angle to target, rotate at given speed, ....)
+
     public void setOffset(double acc) {
         double offset = (Math.round( Math.random() * ( acc * 2 ) ) - acc );
         setByRot(rot + offset, speed);

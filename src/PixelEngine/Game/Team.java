@@ -17,7 +17,7 @@ public class Team
     public void setup() {
         
     }
-    
+    //TODO: keep track of a list or something instead of searching
     public ArrayList<Mob> getMobsOnTeam() {
         ArrayList<Mob> mobs = new ArrayList<Mob>();
         for(int i=0; i<level.entities.size(); i++) {
