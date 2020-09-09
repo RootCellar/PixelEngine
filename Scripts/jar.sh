@@ -2,7 +2,12 @@
 #builds a lot faster than the other build.sh file. Useful for actively developing.
 
 #make sure everything is build first
+echo BUILDING...
 ./fastbuild.sh
+
+echo
+echo
+echo BUILDING JAR...
 
 cd ..
 cd build

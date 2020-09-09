@@ -1,6 +1,9 @@
 #!/bin/bash
 #builds slower, but has more potential to do more while building/with the built source files
 
+echo
+echo BUILDING...
+
 #move to base
 cd ..
 

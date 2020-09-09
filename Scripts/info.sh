@@ -1,6 +1,9 @@
 #!/bin/bash
 #Used to find todo statements and such and collect them in a file
 
+echo
+echo COLLECTING INFO...
+
 git status
 
 #find todo statements
