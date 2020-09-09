@@ -7,12 +7,15 @@
 
 public class ErrorHelper
 {
+	private String PREFIX = "{ERROR HELPER}";
+
+
 	public ErrorHelper() {
 		
 	}
 
 	public String convertExceptionToString(Exception e) {
-		
+		return "NOT YET IMPLEMENTED";
 	}
 
 
