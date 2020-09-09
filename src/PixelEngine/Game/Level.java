@@ -97,9 +97,10 @@ public class Level
     }
 
     public void setState(State s) {
+        State stateWas = state;
         state = s;
 
-        out("Changing state: " + s.ordinal() + " " + s.name());
+        out("Changing state: " + stateWas.name() + " --> " + s.name());
     }
 
     public ArrayList<Entity> getEntities() { return entities; }
