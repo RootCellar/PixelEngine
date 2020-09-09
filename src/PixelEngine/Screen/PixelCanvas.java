@@ -187,7 +187,9 @@ public class PixelCanvas extends Canvas implements Runnable
     //Called so many thousands of times each second.
     //Any optimizations here will help everything
     public void setPixel(int x, int y, int r, int g, int b) {
-        try{
+        //try{
+	    
+	    //TODO: see if this can be sped up
             if(x<0 || y<0) return;
             if(x>=WIDTH || y>=HEIGHT) return;
 
@@ -197,9 +199,11 @@ public class PixelCanvas extends Canvas implements Runnable
             pixels[x + y * WIDTH]=getColor(r,g,b);
 
             //SET_TIMES ++;
+	/*
         }catch(Exception e) {
 
         }
+	*/
     }
 
     //Faster than the old way
