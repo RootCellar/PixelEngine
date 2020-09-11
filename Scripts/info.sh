@@ -6,19 +6,28 @@ echo COLLECTING INFO...
 
 git status
 
-#find todo statements
+#Move to base directory
 cd ..
+
+#Things involving the source code start here
 cd src
+
+#find todo statements
 grep -r -i -n "todo" > ../info/todo.temp
 
 #find single-line comments
 grep -r -i -n "//" > ../info/comment.temp
 
-#count lines
+#count source code lines
 (find -name "*.java" -exec wc -l {} +) | sort -n -r > ../info/lines.temp
 
-#find file sizes
 cd ..
+#No longer working in source code folder
+
+#count text lines
+(find -name "*.md" -exec wc -l {} +) | sort -n -r > info/mdlines.temp
+
+#find file sizes
 (du -ch) | sort -h -r > info/size.temp
 
 #find .md files
