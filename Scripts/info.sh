@@ -8,6 +8,7 @@ git status
 
 #Move to base directory
 cd ..
+mkdir info #ensure folder exists
 
 #Things involving the source code start here
 cd src
