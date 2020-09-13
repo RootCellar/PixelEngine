@@ -17,3 +17,7 @@ hs_err_pid*
 
 #Temporary, or only needed locally
 *.temp
+
+#If somebody decides to use Bluej (actually does a nice job of highlighting)
+*.bluej
+*.ctxt
