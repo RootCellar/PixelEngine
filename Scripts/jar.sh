@@ -11,5 +11,6 @@ echo BUILDING JAR...
 
 cd ..
 cd build
-i=$(find -name "*.class") 
+i=$(find -name "*.class")
+echo $i
 jar --create --file pixelengine.jar $i
