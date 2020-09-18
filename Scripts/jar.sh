@@ -23,4 +23,4 @@ echo
 echo Placing into jar...
 echo
 
-jar --create --file pixelengine.jar $i
+jar --create -e BasicGame --file pixelengine.jar $i
