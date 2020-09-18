@@ -11,15 +11,34 @@ package PixelEngine.Util;
 
 public class ErrorHelper
 {
-	private String PREFIX = "{ERROR HELPER}";
+	private static final String PREFIX = "{ERROR}";
 
 
 	public ErrorHelper() {
 		
 	}
 
-	public String convertExceptionToString(Exception e) {
-		return "NOT YET IMPLEMENTED";
+	public static String convertExceptionToString(Throwable e) {
+		StackTraceElement[] elements = e.getStackTrace();
+		String toRet = "";
+
+		toRet+=PREFIX + " " + e.getMessage() + " at ";
+
+		for(int i=0; i<elements.length; i++) {
+			toRet+=elements[i].toString();
+			toRet+="\n";
+		}
+
+		Throwable cause = e.getCause();
+		if(cause!=null) toRet+="Caused by: " + convertExceptionToString(cause);
+
+		return toRet;
+		//return "NOT YET IMPLEMENTED";
+	}
+
+	public static void main(String[] args) {
+		String exc = convertExceptionToString( new Exception("TEST") );
+		System.out.println(exc);
 	}
 
 
