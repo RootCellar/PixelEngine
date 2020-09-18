@@ -1,5 +1,5 @@
 #!/bin/bash
-#builds a lot faster than the other build.sh file. Useful for actively developing.
+#puts the .class files into a jar. BasicGame specified, meaning that attempting to run the jar runs the example
 
 #make sure everything is built first
 echo BUILDING...
