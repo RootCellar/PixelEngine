@@ -30,7 +30,7 @@ Examples of how the engine can be used will be placed in this repository also.
 
 Note: Development of this engine is nicer on Linux! You get to use scripts to do all the little jobs for you.
 
-On linux, the process is built to be pretty smooth. Just make your edits, use `./fastbuild.sh' in `Scripts` folder, and test things out before committing.
+On linux, the process is built to be pretty smooth. Just make your edits, use `./fastbuild.sh` in `Scripts` folder, and test things out before committing.
 
 Building everything as a jar is as easy as `cd Scripts` and `./jar.sh`.
 
