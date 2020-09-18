@@ -100,7 +100,11 @@ public class Level
         State stateWas = state;
         state = s;
 
-        out("Changing state: " + stateWas.name() + " --> " + s.name());
+	//Fix for when setting state for the first time, stateWas is null
+	String oldName;
+	if(stateWas==null) oldName = "<null>";
+	else oldName = stateWas.name();
+        out("Changing state: " + oldName + " --> " + s.name());
     }
 
     public ArrayList<Entity> getEntities() { return entities; }
