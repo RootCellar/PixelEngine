@@ -17,6 +17,17 @@ public class Property
         value = v;
     }
     
+    public void setValue(boolean b) {
+	if(b) setValue("TRUE");
+	else setValue("FALSE");
+	updated = true;
+    }
+
+    public void setValue(int n) {
+	setValue(n + "");
+	updated = true;
+    }
+
     public void setValue(String s) {
         value = s;
         updated = true;
@@ -43,7 +54,7 @@ public class Property
     }
     
     public boolean toBool() {
-        if( value.equals("true") ) return true;
+        if( value.equalsIgnoreCase("true") ) return true;
         else return false;
     }
     
