@@ -19,7 +19,7 @@ Option 2, building your game in this repository folder (easier if you're on linu
 
 - you'll be working in the src folder. 
 - `cd Scripts` and `./fastbuild.sh` to build.
-- 'cd Scripts' and './jargame.sh <name>' will package your game in a jar. <name> must match the file name that contains the main method to start your game. Ex. `./jargame BasicGame` will take BasicGame.class and specify that as the main class.
+- 'cd Scripts' and './jargame.sh <name>' will package your game in a jar. name must match the file name that contains the main method to start your game. Ex. `./jargame BasicGame` will take BasicGame.class and specify that as the main class.
 
 The src folder contains an example of a basic game.
 
