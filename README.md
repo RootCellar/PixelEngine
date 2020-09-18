@@ -1,25 +1,31 @@
 # PixelEngine
+---
 
 Making it easier to create games with simple, pixelated graphics by creating an engine
 
 Development Started: 10/3/18
 
 ## Use
+---
 
-Put the PixelEngine folder in the base directory of your project.
+Put the src/PixelEngine folder in the base directory of your project.
 Compile the engine source files, and that should be it.
+
+The other option, if working on this repo or in it, is to do `cd Scripts` and `./fastbuild.sh`.
 
 The src folder contains an example of a basic game.
 
 Examples of how the engine can be used will be placed in this repository also.
 
 ## Development
+---
 
 Note: Development of this engine is nicer on Linux!
 
 Reach out to RootCellar9877@GMail.com if you wish to assist with development.
 
 ## Examples
+---
 
 These example games are small examples, in that they can be made in less than a day.
 Games like these are really what the engine was originally built for; arcade-like games that can be made very rapidly. Which is why the engine really isn't that large.
