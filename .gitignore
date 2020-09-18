@@ -1,4 +1,6 @@
 #Files to ignore
+build
+!build/README.md
 
 #Classes, logs
 *.class
