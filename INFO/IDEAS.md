@@ -6,7 +6,7 @@ This file just contains ideas for the PixelEngine. These may or may not be imple
 
 - Low priority, but could potentially be useful
 
-#### Error Handling
+#### Error Handling - IN PROGRESS
 
 - Make a class that offers error handling features. Should be able to take errors and turn them into strings containing message, stack trace, and cause. This will make for easy logging and help with debugging.
 
