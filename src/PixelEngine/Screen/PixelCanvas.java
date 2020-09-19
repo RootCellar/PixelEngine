@@ -173,14 +173,16 @@ public class PixelCanvas extends Canvas implements Runnable
     }
 
     public void setPixel(int x, int y, int c) {
-        try{
-            if(x<0 || y<0) return;
-            if(x>=WIDTH || y>=HEIGHT) return;
-            int i = x + y * WIDTH;
-            pixels[i]=c;
-        }catch(Exception e) {
+        //try{
+            if(x < 0 || y < 0) return;
+            if(x >= WIDTH || y >= HEIGHT) return;
+            //int i = x + y * WIDTH;
+            pixels[x + y * WIDTH] = c;
+        /*
+	}catch(Exception e) {
 
         }
+	*/
     }
     
     //This right here is the real workhorse of the engine.
@@ -190,13 +192,13 @@ public class PixelCanvas extends Canvas implements Runnable
         //try{
 	    
 	    //TODO: see if this can be sped up
-            if(x<0 || y<0) return;
-            if(x>=WIDTH || y>=HEIGHT) return;
+            if(x < 0 || y < 0) return;
+            if(x >= WIDTH || y >= HEIGHT) return;
 
             //int i = x + y * WIDTH;
             //pixels[i]=getColor(r,g,b);
 
-            pixels[x + y * WIDTH]=getColor(r,g,b);
+            pixels[x + y * WIDTH] = getColor(r,g,b);
 
             //SET_TIMES ++;
 	/*
@@ -246,7 +248,7 @@ public class PixelCanvas extends Canvas implements Runnable
     }
 
     public PixelCanvas() {
-        frame = new JFrame("Game");
+        frame = new JFrame("PixelEngine");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(this, BorderLayout.CENTER);
@@ -284,8 +286,30 @@ public class PixelCanvas extends Canvas implements Runnable
         //if( Level.getDistance(xo, yo, x, y) < renderDistance) screen.setPixel((x-xo)+xd, (y-yo)+yd, r, g, b);
     }
 
+    public void drawPixel(int x, int y, int c) {
+	if(offset) {
+	    x/=ZOOM;
+	    y/=ZOOM;
+
+	    x -= xo / ZOOM;
+	    y -= yo / ZOOM;
+
+	    x+= xd;
+	    y+= yd;
+	}
+	setPixel(x, y, c);
+    }
+
+    public void drawPixel(double x, double y, int c) {
+	drawPixel( (int) x, (int) y, c);
+    }
+
     public void drawCircle(double x2, double y2, int r, int g, int b, double radius2) {
-        int x = (int)Math.round(x2);
+
+	//Only grab the color once, slight optimization
+	int color = getColor(r,g,b);
+
+	int x = (int)Math.round(x2);
         int y = (int)Math.round(y2);
         int radius = (int)Math.round(radius2);
 
@@ -297,19 +321,21 @@ public class PixelCanvas extends Canvas implements Runnable
             mult = Math.cos( Math.toRadians(angle) );
             int xAdd = (int)(mult * radius);
 
-            drawPixel( x+xAdd, y+yAdd, r,g,b);
-            drawPixel( x-xAdd, y+yAdd, r,g,b);
-            drawPixel( x+xAdd, y-yAdd, r,g,b);
-            drawPixel( x-xAdd, y-yAdd, r,g,b);
+            drawPixel( x+xAdd, y+yAdd, color);
+            drawPixel( x-xAdd, y+yAdd, color);
+            drawPixel( x+xAdd, y-yAdd, color);
+            drawPixel( x-xAdd, y-yAdd, color);
         }
     }
 
     public void drawSquare(int x1, int y1, int x2, int y2, int r, int g, int b) {
         if(x1>x2 || y1>y2) return;
 
+	int color = getColor(r, g, b);
+
         for(int i=x1; i<=x2; i++) {
             for(int k=y1; k<=y2; k++) {
-                drawPixel( i, k, r, g, b);
+                drawPixel( i, k, color);
             }
         }
     }
@@ -342,6 +368,8 @@ public class PixelCanvas extends Canvas implements Runnable
             end = difference;
         }
 
+	int color = getColor(r,g,b);
+
         double toAdd = end - begin;
 
         if(count<1) count = (int) Math.round( DIST.getDistance( x1, y1, x2, y2) );
@@ -350,7 +378,7 @@ public class PixelCanvas extends Canvas implements Runnable
 
         if( x1 == x2 ) {
             for(double i = Math.min(y1, y2); i < Math.max(y1, y2); i += Math.abs( y1 - y2 ) / count ) {
-                drawPixel( (x1 * -1), (i * -1), r, g, b );
+                drawPixel( (x1 * -1), (i * -1), color);
             }
         }
 
@@ -358,8 +386,8 @@ public class PixelCanvas extends Canvas implements Runnable
             y = i * slope;
             y *= -1;
 
-            if(x1>x2) drawPixel( (x1*-1)+i, (y1*-1)+y, r, g, b);
-            else drawPixel( (x1*-1)-i, (y1*-1)+y, r, g, b);
+            if(x1>x2) drawPixel( (x1*-1)+i, (y1*-1)+y, color);
+            else drawPixel( (x1*-1)-i, (y1*-1)+y, color);
         }
     }
 
