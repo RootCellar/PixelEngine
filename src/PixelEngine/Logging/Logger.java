@@ -62,6 +62,9 @@ public class Logger
     public void log(String s) {
         if(!canWrite) return;
 
+	//Allow strings to me multi-line, universally
+	s.replaceAll("\n", System.getProperty("line.separator") );
+
         try{
             toLog.write(getTimeAsString( new Date() )+" "+s);
             toLog.write(System.getProperty("line.separator"));
