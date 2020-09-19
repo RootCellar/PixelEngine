@@ -6,9 +6,6 @@
 
 package PixelEngine.Util;
 
-
-//TODO: Implement
-
 public class ErrorHelper
 {
 	private static final String PREFIX = "{ERROR}";
