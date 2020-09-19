@@ -32,11 +32,14 @@ public class PixelBar
         double howMuch = ( percent / 100.0 ) * ((double)width);
         int howMuch2 = (int)howMuch;
 
+	int color = c.getColor(rc, gc, bc);
+	int color2 = c.getColor(roc, goc, boc);
+
         for(int i=0; i<width; i++) {
             for(int k=0; k<height; k++) {
                 //if(i>howMuch2) g.drawPixel(x+i, y+k, 255-rc, 255-gc, 255-bc);
-                if(i>howMuch2) c.drawPixel( (int) (x+i), (int) (y+k), roc, goc, boc);
-                else c.drawPixel(x+i, y+k, rc, gc, bc);
+                if(i>howMuch2) c.drawPixel( (int) (x+i), (int) (y+k), color2);
+                else c.drawPixel(x+i, y+k, color);
             }
         }
     }
