@@ -265,6 +265,8 @@ public class PixelCanvas extends Canvas implements Runnable
         //if( Level.getDistance(xo, yo, x, y) < renderDistance) screen.setPixel((x-xo)+xd, (y-yo)+yd, r, g, b);
     }
 
+    //TODO: optimize zoom and offset handling. It's gotta be possible.
+
     public void drawPixel(int x, int y, int r, int g, int b) {
         //Regular Render
         //screen.setPixel(( x -  ( xo ) ) + xd, ( y - ( yo ) ) + yd, r, g, b);
