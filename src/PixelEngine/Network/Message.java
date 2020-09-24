@@ -1,8 +1,12 @@
 /*
  *
  * This is where message construction and reading happens.
- * Basically, message type and an id are placed into the byte array,
+ * 
+ * Sending: Basically, message type and an id are placed into the byte array,
  * then the rest goes in.
+ *
+ * Receiving: the array of bytes is used to construct a message,
+ * only in the "mode" if extracting infromation from the message and using it
  *
 */
 
