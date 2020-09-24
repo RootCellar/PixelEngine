@@ -1,7 +1,7 @@
 /*
  *
  *   Where things take place
- *   For singleplayer games, this class is very simple to used
+ *   For singleplayer games, this class is very simple to use
  *   For multiplayer games, this class gets a little bit more complicated
  *
  */
