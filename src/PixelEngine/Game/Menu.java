@@ -49,6 +49,9 @@ public class Menu implements PixelCanvasUser
         if(choice>choices.length-1) choice = choices.length - 1;
     }
 
+
+    //TODO: Some kind of animation?
+
     public void draw(Graphics g) {
 
         g.drawString("Welcome!", 50, 80);
