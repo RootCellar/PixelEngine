@@ -73,6 +73,7 @@ public class Projectile extends Entity
         hitInRange();
     }
 
+    //TODO: Add support for mutliple types of collision detection.
     public void hitInRange() {
         ArrayList<Mob> entities = level.getInRange( x, y, damageRange);
 
