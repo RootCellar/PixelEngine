@@ -21,6 +21,10 @@ package PixelEngine.Network;
 
 public enum GameNetMessage
 {
+    //Message type defined to be unknown or invalid
+    //Specifically has an ID of -1
+    INVALID(-1),
+
     //Net Handling
     PING_CHECK,
 
@@ -73,14 +77,19 @@ public enum GameNetMessage
     MOUSE_POS,
     ;
 
-    String name;
-    short id;
+    private String name;
+    private short id;
 
     GameNetMessage() {
         name = name();
         id = (short) ordinal();
 
         //System.out.println( "GAME NET: " + getId() + " " + getName() );
+    }
+
+    GameNetMessage(short n) {
+	id = n;
+	name = name();
     }
 
     public String getName() { return name; }

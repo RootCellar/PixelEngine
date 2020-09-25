@@ -27,7 +27,7 @@ public class MessageTypes
         for( Property p : list.getProperties() ) {
             if(name.equals(p.getName()) ) return p.toInt();
         }
-        return -32768;
+        return -1;
     }
 
     public static void add(Enum e) {
