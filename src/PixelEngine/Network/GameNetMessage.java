@@ -23,7 +23,7 @@ public enum GameNetMessage
 {
     //Message type defined to be unknown or invalid
     //Specifically has an ID of -1
-    INVALID(-1),
+    INVALID( (short) -1),
 
     //Net Handling
     PING_CHECK,
