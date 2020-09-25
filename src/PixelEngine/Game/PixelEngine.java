@@ -155,6 +155,7 @@ public class PixelEngine implements Runnable, PixelCanvasUser
         going = false;
     }
 
+    //TODO: Optimize. Doesn't really have a huge effect, but it is something
     public void renderBorder() {
         for(int i=-1 * (int)level.xBound; i<level.xBound; i+=50) {
             for(int k=-1 * (int)level.yBound; k<level.yBound; k+=50) {
