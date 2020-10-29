@@ -5,8 +5,9 @@ This file just contains ideas for the PixelEngine. These may or may not be imple
 #### Physics engine
 
 - More of an interesting concept that could make for some interesting games
-  - Possibly vehicles, with horsepower. Apply work of engines properly into kinetic energy and solve for more realistic velocity
+  - Possibly vehicles, with horsepower. Apply work of engines properly into kinetic energy and solve for more realistic velocity (even braking force could be realistic)
   - gravity, make games with planets to curve projectiles and players
+  - vehicles with mass might actually have interesting collisions (collision code would have to be improved though)
 
 #### Data dumping
 
