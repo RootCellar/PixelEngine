@@ -184,13 +184,13 @@ public class PixelCanvas extends Canvas implements Runnable
         }
 	*/
     }
-    
+
     //This right here is the real workhorse of the engine.
     //Called so many thousands of times each second.
     //Any optimizations here will help everything
     public void setPixel(int x, int y, int r, int g, int b) {
         //try{
-	    
+
 	    //TODO: see if this can be sped up
             if(x < 0 || y < 0) return;
             if(x >= WIDTH || y >= HEIGHT) return;
@@ -289,29 +289,29 @@ public class PixelCanvas extends Canvas implements Runnable
     }
 
     public void drawPixel(int x, int y, int c) {
-	if(offset) {
-	    x/=ZOOM;
-	    y/=ZOOM;
+	     if(offset) {
+	        x/=ZOOM;
+	        y/=ZOOM;
 
-	    x -= xo / ZOOM;
-	    y -= yo / ZOOM;
+	        x -= xo / ZOOM;
+	        y -= yo / ZOOM;
 
-	    x+= xd;
-	    y+= yd;
-	}
-	setPixel(x, y, c);
+	        x+= xd;
+	        y+= yd;
+	     }
+	     setPixel(x, y, c);
     }
 
     public void drawPixel(double x, double y, int c) {
-	drawPixel( (int) x, (int) y, c);
+	     drawPixel( (int) x, (int) y, c);
     }
 
     public void drawCircle(double x2, double y2, int r, int g, int b, double radius2) {
 
-	//Only grab the color once, slight optimization
-	int color = getColor(r,g,b);
+	      //Only grab the color once, slight optimization
+	      int color = getColor(r,g,b);
 
-	int x = (int)Math.round(x2);
+	      int x = (int)Math.round(x2);
         int y = (int)Math.round(y2);
         int radius = (int)Math.round(radius2);
 
@@ -333,7 +333,7 @@ public class PixelCanvas extends Canvas implements Runnable
     public void drawSquare(int x1, int y1, int x2, int y2, int r, int g, int b) {
         if(x1>x2 || y1>y2) return;
 
-	int color = getColor(r, g, b);
+	      int color = getColor(r, g, b);
 
         for(int i=x1; i<=x2; i++) {
             for(int k=y1; k<=y2; k++) {
@@ -370,7 +370,7 @@ public class PixelCanvas extends Canvas implements Runnable
             end = difference;
         }
 
-	int color = getColor(r,g,b);
+	      int color = getColor(r,g,b);
 
         double toAdd = end - begin;
 
