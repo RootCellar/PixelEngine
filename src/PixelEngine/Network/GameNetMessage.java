@@ -13,7 +13,7 @@
  * Note though that if you define your own message
  * type with the same name as one of these, it will not be placed into the list
  * because a type already exists with that name (From here).
- * (Using that message type will still work in your game, it will just from from here)
+ * (Using that message type will still work in your game, it will just be from here)
  *
 */
 

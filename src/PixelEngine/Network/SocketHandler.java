@@ -188,7 +188,10 @@ public class SocketHandler implements Runnable
             if(size != count) {
                 out("RECEIVED WRONG NUMBER OF BYTES. DISCARDING...");
 
-                throw new IOException("WRONG_BYTES");
+                //TODO: decide for sure if this line is really needed
+                //If a client sends the wrong number of bytes, it could just be discarded
+                //But, we could keep this if we just want to assume this is a serious problem (security, or otherwise)
+                throw new IOException("WRONG_DATA_SIZE");
             }
 
             user.inputBytes(bytes);
