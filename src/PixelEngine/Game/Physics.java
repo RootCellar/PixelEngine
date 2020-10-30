@@ -25,11 +25,11 @@ public class Physics
     return pixelsPerMeter;
   }
 
-  public static double pixelsToMeters(double distance) {
+  public double pixelsToMeters(double distance) {
     return distance / pixelsPerMeter;
   }
 
-  public static double metersToPixels(double distance) {
+  public double metersToPixels(double distance) {
     return distance * pixelsPerMeter;
   }
 
