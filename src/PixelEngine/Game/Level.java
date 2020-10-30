@@ -31,7 +31,9 @@ public class Level
     //Makes the level consume more processing power, but allows it to help with networking and messages
     public static boolean MODE_NET = false;
 
+    //Useful Objects
     public static Logger toLog = new Logger("LEVEL","LEVEL");
+    public static Physics physics = new Physics();
 
     //Lists of things that exist in the level
     public ArrayList<Entity> entities = new ArrayList<Entity>();
