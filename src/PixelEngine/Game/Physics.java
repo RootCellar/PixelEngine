@@ -42,6 +42,4 @@ public class Physics
     return horsepower * WATTS_PER_HORSEPOWER;
   }
 
-
-
 }

@@ -18,12 +18,12 @@ public class Server implements Runnable, Outputter
     //Logging
     Logger logger = new Logger("Server", "Server");
     Logger debugLog = new Logger("Server", "Debug");
-    
+
     //Useful Objects
     public ServerSocketHandler serverSocket;
     public Registry registry = new Registry();
     public MessageTypes messageTypes = new MessageTypes(this);
-    
+
     public ConcurrentLinkedQueue<ServerMessage> messages = new ConcurrentLinkedQueue<ServerMessage>();
 
     //Variables
@@ -36,34 +36,34 @@ public class Server implements Runnable, Outputter
 
     public Server() {
         MessageTypes.add(GameNetMessage.values());
-        
+
         serverSocket = new ServerSocketHandler(this);
-        
+
         Inventory.netMode = true;
         Level.MODE_NET = true;
         Level.o = this;
-        
+
         //SocketHandler.setWaitTime(0);
-        
+
         registry.add( new Property("HOSTNAME", "SERVER") );
-        
+
         try{
             serverSocket.setup();
         }catch(Exception e) {
             out("Can't set up server socket handler");
         }
     }
-    
+
     public void parseMessages() {
         while( messages.size() > 0 ) parseMessage( messages.poll() );
     }
-    
+
     public void parseMessage(ServerMessage m) {
         Message message = m.getMessage();
         User user = m.getFrom();
-        
+
         if( message.getId() == MessageTypes.getId("NAME_SET") ) {
-            
+
         }
     }
 
@@ -81,17 +81,19 @@ public class Server implements Runnable, Outputter
     }
 
     public void stop() {
-        going = false;   
+        going = false;
     }
 
     public void addSocket(SocketHandler s) {
-        out("Sending Bytes");
+        out("Sending Welcome");
         s.sendString("Hello! Your connection has been received.");
+        s.sendString("Unfortunately, this server is capable of accepting connections, but has no idea what to do with them.");
+        s.sendString("Because of that, we must break the connection. Bye.");
         s.close();
     }
-    
+
     public void setup() {
-        
+
     }
 
     public void run() {
@@ -102,7 +104,7 @@ public class Server implements Runnable, Outputter
         double nsPerTick = 1000000000.0 / TPS;
         long lastFrame = System.nanoTime();
         long checkTime = System.nanoTime();
-        
+
         setup();
 
         int eInRow = 0; //Keep track of how many loops are interrupted in a row
@@ -156,14 +158,14 @@ public class Server implements Runnable, Outputter
     }
 
     public void tick() {
-        
+
     }
 
     public void out(String s) {
         System.out.println("[SERVER] " + s);
         logger.log(s);
     }
-    
+
     public void debug(String s) {
         debugLog.log(s);
     }

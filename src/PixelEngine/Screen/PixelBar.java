@@ -32,8 +32,8 @@ public class PixelBar
         double howMuch = ( percent / 100.0 ) * ((double)width);
         int howMuch2 = (int)howMuch;
 
-	int color = c.getColor(rc, gc, bc);
-	int color2 = c.getColor(roc, goc, boc);
+	      int color = c.getColor(rc, gc, bc);
+	      int color2 = c.getColor(roc, goc, boc);
 
         for(int i=0; i<width; i++) {
             for(int k=0; k<height; k++) {

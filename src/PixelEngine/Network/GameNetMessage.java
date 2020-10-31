@@ -88,8 +88,8 @@ public enum GameNetMessage
     }
 
     GameNetMessage(short n) {
-	id = n;
-	name = name();
+	      id = n;
+	      name = name();
     }
 
     public String getName() { return name; }
