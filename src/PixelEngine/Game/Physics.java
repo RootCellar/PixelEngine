@@ -17,6 +17,7 @@ public class Physics
   //Final Variables
   public static final String prefix = "[Physics]";
   public static final double WATTS_PER_HORSEPOWER = 746;
+  public static final double GRAVITATIONAL_CONSTANT = 6.67408 * Math.pow(10, -11);
 
   //Variables
   private double pixelsPerMeter = 10;
@@ -40,6 +41,44 @@ public class Physics
 
   public static double horsepowerToWatts(double horsepower) {
     return horsepower * WATTS_PER_HORSEPOWER;
+  }
+
+  /*
+   * Take distance in pixels, masses in kg, return acceleration in pixels
+   * this just returns acceleration in pixels, but does not specify direction.
+   * maybe there should be a method for that...
+  */
+  public double calculateGravityAcceleration(double mass1, double mass2, double distance) {
+    //Masses are ok, just multiply them
+    double answer = mass1 * mass2;
+
+    //Convert distance from pixels to meters, before dividing by distance squared
+    distance = pixelsToMeters(distance);
+    answer /= Math.pow(distance, 2);
+
+    //Gravitational constant time...
+    answer *= GRAVITATIONAL_CONSTANT;
+
+    //The answer is currently meters/second^2, let us convert to pixels/second^2...
+    answer = metersToPixels(answer);
+
+    //Time to return
+    return answer;
+
+  }
+
+  /*
+   *
+   *
+   *
+  */
+  public double[] findDirectionalAcceleration(double acceleration, double angle) {
+
+    double[] answers = new double[2];
+
+
+
+    return answers;
   }
 
 }
